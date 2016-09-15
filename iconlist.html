@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>地図アイコン一覧</title>
+    <meta charset='utf-8'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		var dirName = 'icons';
+		var fileList = [
+			['eki', '駅'],
+			['kentyou', '県庁'],
+			['shiyakusyo', '市役所'],
+			['machiyakuba', '町役場'],
+			['kantyousya_koukyoushisetsu', '官庁舎・公共施設'],
+			['keisatsu_hasyutsujo', '警察・派出所'],
+			['syoubousyo', '消防署'],
+			['gakkou', '学校'],
+			['yuubinkyoku', '郵便局'],
+			['byouin', '病院'],
+			['gas_station', 'ガソリンスタンド'],
+			['car_youhinten', 'カー用品店'],
+			['interchange', 'インターチェンジ'],
+			['junction', 'ジャンクション'],
+			['service_area', 'サービスエリア'],
+			['parking_area', 'パーキングエリア'],
+			['ramp_deiriguchi', 'ランプ(出入口)'],
+			['ramp_deguchi', 'ランプ(出口)'],
+			['kousaten', '交差点'],
+			['tyuusyajou', '駐車場'],
+			['koujou', '工場'],
+			['kuukou_hikoujou', '空港・飛行場'],
+			['ferry_terminal', 'フェリーターミナル'],
+			['minato', '港'],
+			['toukitsuukoudome', '冬期通行止め'],
+			['ryoukinjo', '料金所'],
+			['marina', 'マリーナ'],
+			['shiseki_meisyo', '史跡・名所'],
+			['jouseki', '城跡'],
+			['jinja', '神社'],
+			['jiin', '寺院'],
+			['kyoukai', '教会'],
+			['kaisuiyokujou', '海水浴場'],
+			['golf_jou', 'ゴルフ場'],
+			['skii_jou', 'スキー場'],
+			['camp_jou', 'キャンプ場'],
+			['yuuenchi', '遊園地'],
+			['doubutsuen', '動物園'],
+			['kouen', '公園'],
+			['stadium', 'スタジアム'],
+			['undoushisetsu', '運動施設'],
+			['syokubutsuen', '植物園'],
+			['bijutsukan', '美術館'],
+			['hakubutsukan', '博物館'],
+			['suizokukan', '水族館'],
+			['tosyokan', '図書館'],
+			['shiro_tensyukaku', '城・天守閣'],
+			['tembou_tower', '展望タワー'],
+			['onsen', '温泉'],
+			['jieitai', '自衛隊'],
+			['bochi', '墓地'],
+			['fujisan', '富士山'],
+			['soccer_stadium', 'サッカースタジアム'],
+			['bus_tei', 'バス停'],
+			['keibajou_wins', '競馬場・ウインズ'],
+			['seven_eleven', 'セブンイレブン'],
+			['lawson', 'ローソン'],
+			['familymart', 'ファミリーマート'],
+			['mac', 'マクドナルド'],
+			['kfc', 'ケンタッキーフライドチキン'],
+			['mos', 'モスバーガー'],
+			['lotteria', 'ロッテリア'],
+			['royalhost', 'ロイヤルホスト'],
+			['family_restaurant', 'ファミリーレストラン'],
+			['joyfull', 'ジョイフル'],
+			['bikkuri_donky', 'びっくりドンキー'],
+			['jonathan', 'ジョナサン'],
+			['ginkou', '銀行'],
+			['yoshinoya', '牛丼吉野家'],
+			['thirtyone', 'サーティワンアイスクリーム'],
+			['volks', 'フォルクス'],
+			['ringerhut', 'リンガーハット'],
+			['ousyou', '餃子の王将チェーン'],
+			['ministop', 'ミニストップ'],
+			['sunkus', 'サンクス'],
+			['dailystore', 'デイリーストア'],
+			['cocostore', 'ココストア'],
+			['circle_k', 'サークルＫ'],
+			['gusto', 'ガスト'],
+			['coco_ichibanya', 'ＣｏＣｏ壱番屋'],
+			['cocos', 'ＣＯＣＯ’Ｓ'],
+			['matsuya', '松屋'],
+			['doutor', 'ドトールコーヒー'],
+			['nakau', 'なか卯'],
+			['sukiya', 'すき家'],
+			['bamiyan', 'バーミヤン'],
+			['kokudou1', '国道'],
+			['kendou1', '地方道'],
+			['santyou', '山頂'],
+			['other', 'その他']
+		];
+		var suffix = '-15.svg';
+
+		html = '';
+		for (var i = 0; i < fileList.length; i++) {
+			html += '<tr>';
+			html += '<th><img src="' + dirName + '/' + fileList[i][0] + suffix + '" width="15" height="15"></th>';
+			html += '<th>' + fileList[i][1] + '</th>';
+			html += '</tr>';
+		}
+
+		$(document).ready(function() {
+		    $("table").append(html);
+		});
+	</script>
+	</head>
+	<body>
+		<table border="1" style="background-color: bisque;" />
+	</body>
+</html>

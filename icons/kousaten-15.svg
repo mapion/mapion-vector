@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="kousaten" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 15 15" enable-background="new 0 0 15 15" xml:space="preserve">
+<g>
+	<path d="M13,10H2c-1.1,0-2-0.9-2-2V7c0-1.1,0.9-2,2-2h11c1.1,0,2,0.9,2,2v1C15,9.1,14.1,10,13,10z"/>
+	<g>
+		<g>
+			<ellipse fill="#438EF9" cx="2.8" cy="7.5" rx="1.7" ry="1.7"/>
+		</g>
+		<g>
+			<ellipse fill="#EDD12B" cx="7.5" cy="7.5" rx="1.7" ry="1.7"/>
+		</g>
+		<g>
+			<ellipse fill="#EA2D2D" cx="12.2" cy="7.5" rx="1.7" ry="1.7"/>
+		</g>
+	</g>
+</g>
+</svg>
