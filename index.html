@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>マピオンベクター（ベータ）</title>
+    <title>マピオンベクター</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
-    </style>
-    <style>
+
+        @media screen and (min-width: 0px) and (max-device-width: 930px) {
+            .logo {
+                position: absolute;
+                left: 0;
+                bottom: 20px;
+                margin: auto;
+                width: 83px;
+                height: 30px;
+            }
+        }
+
+        @media screen and (min-device-width: 931px) {
+            .logo {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                width: 83px;
+                height: 30px;
+            }
+        }
+
         .dekaji {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
-            width: 70px;
+            width: 80px;
             top: 0;
-            left: 0px;
+            left: 0;
             padding: 10px;
         }
         .dekaji .dekaji-inner {
@@ -34,7 +56,7 @@
             position: absolute;
             width: 80px;
             top: 0;
-            left: 80px;
+            left: 90px;
             padding: 10px;
         }
         .kyorisoku .kyorisoku-inner {
@@ -53,7 +75,7 @@
             position: absolute;
             width: 80px;
             top: 0;
-            left: 170px;
+            left: 180px;
             padding: 10px;
         }
         .yuuryou .yuuryou-inner {
@@ -67,18 +89,36 @@
             cursor:pointer;
         }
 
-        .maptype {
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            position: absolute;
-            background-color: rgba(255,255,255,1);
-            margin:10px 0 0;
-            border-radius:13px;
-            vertical-align:middle;
-            top: 0;
-            right: 50px;
-            padding: 2px;
-            width: 130px;
-            box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+        @media screen and (min-width: 0px) and (max-device-width: 930px) {
+            .maptype {
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                position: absolute;
+                background-color: rgba(255,255,255,1);
+                margin:10px 0 0;
+                border-radius:13px;
+                vertical-align:middle;
+                top: 35px;
+                left: 10px;
+                padding: 2px;
+                width: 130px;
+                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+            }
+        }
+
+        @media screen and (min-device-width: 931px) {
+            .maptype {
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                position: absolute;
+                background-color: rgba(255,255,255,1);
+                margin:10px 0 0;
+                border-radius:13px;
+                vertical-align:middle;
+                top: 0;
+                right: 50px;
+                padding: 2px;
+                width: 130px;
+                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+            }
         }
         .maptype label {
             cursor:pointer;
@@ -105,10 +145,11 @@
             color:rgba(0,0,0,.75);
         }
 
+
         .help {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
-            width: 32px;
+            width: 160px;
             bottom: 0;
             padding: 0 5px;
             background-color: rgba(255,255,255,0.5);
@@ -129,16 +170,19 @@
 
 <body>
 <div id='map'></div>
+<div class='logo'>
+    <a href='//www.mapion.co.jp/'><img src='mapion@2x.png' width='83' height='30'></a>
+</div>
 <div class='dekaji'>
     <div class='dekaji-inner'>
         <input id='dekaji_label' type='checkbox' name='rtoggle'>
-        <label for='dekaji_label'>でか字</label>
+        <label for='dekaji_label'>でか文字</label>
     </div>
 </div>
 <div class='kyorisoku'>
     <div class='kyorisoku-inner'>
         <input id='kyorisoku_label' type='checkbox' name='rtoggle'>
-        <label for='kyorisoku_label'>キョリ測</label>
+        <label for='kyorisoku_label'>距離測定</label>
     </div>
 </div>
 <div class='yuuryou'>
@@ -154,7 +198,7 @@
     <label for="satellite">衛星地図</label>
 </div>
 <div class='help'>
-<a href='./help.html'>HELP</a>
+<a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
 </div>
 
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
@@ -162,25 +206,24 @@
 
 function getCSSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.23.0-2/mapion-gl.css' :
-        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.23.0-2/mapion-gl.css?random=' + Math.random();
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.css' :
+        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.css?random=' + Math.random();
 }
 
 function getJSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.23.0-2/mapion-gl.js' :
-        './mapion-gl-v0.23.0-2-nocache.js';
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.js' :
+        './mapion-gl-v0.26.0-nocache.js';
 }
 
 function getStyleURL(type) {
     var domain = PRODUCT ? 'https://vt01.mapion.co.jp/' : 'https://vt-stg.mapion.co.jp/';
-    var param = PRODUCT ? '' : '?random=' + Math.random();
     switch (type) {
         case 'standard':
-            return domain + 'style/style-vector-standard-v1508-2.json' + param;
+            return domain + 'style/style-flex2.json';
         break;
         case 'satellite':
-            return domain + 'style/style-satellite-street.json' + param;
+            return domain + 'style/style-satellite-street.json';
         break;
         default:
     }
@@ -290,9 +333,19 @@ loadScript(getJSURL(), function() {
         style: getStyleURL('standard'),
         hash: true
     });
-    map.addControl(new mapboxgl.Navigation());
-    map.addControl(new mapboxgl.Geolocate({position: 'top-right'}));
-    map.dragRotate._pitchWithRotate = true;
+
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(new mapboxgl.GeolocateControl({position: 'top-right'}));
+    map.addControl(new mapboxgl.ScaleControl({position: 'bottom-right'}));
+
+/*
+% webmerc -o 5/25/15
+5.615985,106.874999
+% webmerc -o 5/30/10
+52.48278,163.124999
+*/
+
+    map.setMaxBounds(new mapboxgl.LngLatBounds([106.874999, 5.615985], [163.124999, 52.48278]));
     map.showTileBoundaries = PRODUCT?false:true;
 
     map.on('load', function() {
@@ -303,10 +356,15 @@ loadScript(getJSURL(), function() {
         nameVsOtherDefaultSize = map.getLayoutProperty('name_vs_other', 'text-size');
         crossSymbolDefaultSize = map.getLayoutProperty('cross_symbol', 'text-size');
         nameVsDefaultSize = map.getLayoutProperty('name_vs', 'text-size');
-        nameVsPlus1DefaultSize = map.getLayoutProperty('name_vs_plus1', 'text-size');
+        // nameVsPlus1DefaultSize = map.getLayoutProperty('name_vs_plus1', 'text-size');
         nameVsOnlyDefaultSize = map.getLayoutProperty('name_vs_only', 'text-size');
         nameVsOnlyPlus1DefaultSize = map.getLayoutProperty('name_vs_only_plus1', 'text-size');
         nameVsOnlyMinus1DefaultSize = map.getLayoutProperty('name_vs_only_minus1', 'text-size');
+        arriveOnlyDefaultSize = map.getLayoutProperty('arrive_only', 'text-size');
+        mapionPointsOnlyDefaultSize = map.getLayoutProperty('mapion_points_only', 'text-size');
+        mapionPointsDefaultSize = map.getLayoutProperty('mapion_points', 'text-size');
+        mapionPointsEkiDefaultSize = map.getLayoutProperty('mapion_points_eki', 'text-size').base;
+        mapionPointsBigDefaultSize = map.getLayoutProperty('mapion_points_big', 'text-size');
 
         /* キョリ測 */
         map.on('click', function(e) {
@@ -385,16 +443,21 @@ document.getElementById('dekaji_label').onclick = function(e) {
     map.setLayoutProperty('name_vs_other', 'text-size', nameVsOtherDefaultSize*times);
     map.setLayoutProperty('cross_symbol', 'text-size', crossSymbolDefaultSize*times);
     map.setLayoutProperty('name_vs', 'text-size', nameVsDefaultSize*times);
-    map.setLayoutProperty('name_vs_plus1', 'text-size', nameVsPlus1DefaultSize.base*times);
+    // map.setLayoutProperty('name_vs_plus1', 'text-size', nameVsPlus1DefaultSize.base*times);
     map.setLayoutProperty('name_vs_only', 'text-size', nameVsOnlyDefaultSize*times);
     map.setLayoutProperty('name_vs_only_plus1', 'text-size', nameVsOnlyPlus1DefaultSize*times);
     map.setLayoutProperty('name_vs_only_minus1', 'text-size', nameVsOnlyMinus1DefaultSize*times);
+    map.setLayoutProperty('arrive_only', 'text-size', arriveOnlyDefaultSize*times);
+    map.setLayoutProperty('mapion_points_only', 'text-size', mapionPointsOnlyDefaultSize*times);
+    map.setLayoutProperty('mapion_points', 'text-size', mapionPointsDefaultSize*times);
+    map.setLayoutProperty('mapion_points_eki', 'text-size', mapionPointsEkiDefaultSize*times);
+    map.setLayoutProperty('mapion_points_big', 'text-size', mapionPointsBigDefaultSize*times);
 
     var iconImage = dekaji_on ? '{kind}-15' : '{kind}-11';
     map.setLayoutProperty('name_vs', 'icon-image', iconImage);
 
-    var ekiImage = dekaji_on ? '{kind}-15' : '{kind}-11';
-    map.setLayoutProperty('name_vs_plus1', 'icon-image', ekiImage);
+    // var ekiImage = dekaji_on ? '{kind}-15' : '{kind}-11';
+    // map.setLayoutProperty('name_vs_plus1', 'icon-image', ekiImage);
 
     var signalImage = dekaji_on ? 'kousaten-15': 'kousaten-11';
     map.setLayoutProperty('cross_symbol', 'icon-image', signalImage);
@@ -437,10 +500,15 @@ var roadLabel3DefaultSize = 0;
 var nameVsOtherDefaultSize = 0;
 var crossSymbolDefaultSize = 0;
 var nameVsDefaultSize = 0;
-var nameVsPlus1DefaultSize = 0;
+// var nameVsPlus1DefaultSize = 0;
 var nameVsOnlyDefaultSize = 0;
 var nameVsOnlyPlus1DefaultSize = 0;
 var nameVsOnlyMinus1DefaultSize = 0;
+var arriveOnlyDefaultSize = 0;
+var mapionPointsOnlyDefaultSize = 0;
+var mapionPointsDefaultSize = 0;
+var mapionPointsEkiDefaultSize = 0;
+var mapionPointsBigDefaultSize = 0;
 
 var distancePopup = null;
 var distanceFeatures;
