@@ -220,7 +220,7 @@ function getStyleURL(type) {
     var domain = PRODUCT ? 'https://vt01.mapion.co.jp/' : 'https://vt-stg.mapion.co.jp/';
     switch (type) {
         case 'standard':
-            return domain + 'style/style-flex2.json';
+            return domain + 'style/standard.json';
         break;
         case 'satellite':
             return domain + 'style/style-satellite-street.json';
@@ -356,7 +356,6 @@ loadScript(getJSURL(), function() {
         nameVsOtherDefaultSize = map.getLayoutProperty('name_vs_other', 'text-size');
         crossSymbolDefaultSize = map.getLayoutProperty('cross_symbol', 'text-size');
         nameVsDefaultSize = map.getLayoutProperty('name_vs', 'text-size');
-        // nameVsPlus1DefaultSize = map.getLayoutProperty('name_vs_plus1', 'text-size');
         nameVsOnlyDefaultSize = map.getLayoutProperty('name_vs_only', 'text-size');
         nameVsOnlyPlus1DefaultSize = map.getLayoutProperty('name_vs_only_plus1', 'text-size');
         nameVsOnlyMinus1DefaultSize = map.getLayoutProperty('name_vs_only_minus1', 'text-size');
@@ -443,7 +442,6 @@ document.getElementById('dekaji_label').onclick = function(e) {
     map.setLayoutProperty('name_vs_other', 'text-size', nameVsOtherDefaultSize*times);
     map.setLayoutProperty('cross_symbol', 'text-size', crossSymbolDefaultSize*times);
     map.setLayoutProperty('name_vs', 'text-size', nameVsDefaultSize*times);
-    // map.setLayoutProperty('name_vs_plus1', 'text-size', nameVsPlus1DefaultSize.base*times);
     map.setLayoutProperty('name_vs_only', 'text-size', nameVsOnlyDefaultSize*times);
     map.setLayoutProperty('name_vs_only_plus1', 'text-size', nameVsOnlyPlus1DefaultSize*times);
     map.setLayoutProperty('name_vs_only_minus1', 'text-size', nameVsOnlyMinus1DefaultSize*times);
@@ -453,14 +451,6 @@ document.getElementById('dekaji_label').onclick = function(e) {
     map.setLayoutProperty('mapion_points_eki', 'text-size', mapionPointsEkiDefaultSize*times);
     map.setLayoutProperty('mapion_points_big', 'text-size', mapionPointsBigDefaultSize*times);
 
-    var iconImage = dekaji_on ? '{kind}-15' : '{kind}-11';
-    map.setLayoutProperty('name_vs', 'icon-image', iconImage);
-
-    // var ekiImage = dekaji_on ? '{kind}-15' : '{kind}-11';
-    // map.setLayoutProperty('name_vs_plus1', 'icon-image', ekiImage);
-
-    var signalImage = dekaji_on ? 'kousaten-15': 'kousaten-11';
-    map.setLayoutProperty('cross_symbol', 'icon-image', signalImage);
 };
 
 document.getElementById('yuuryou_label').onclick = function(e) {
@@ -500,7 +490,6 @@ var roadLabel3DefaultSize = 0;
 var nameVsOtherDefaultSize = 0;
 var crossSymbolDefaultSize = 0;
 var nameVsDefaultSize = 0;
-// var nameVsPlus1DefaultSize = 0;
 var nameVsOnlyDefaultSize = 0;
 var nameVsOnlyPlus1DefaultSize = 0;
 var nameVsOnlyMinus1DefaultSize = 0;
