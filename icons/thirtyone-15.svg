@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="thirtyone" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 15 15" enable-background="new 0 0 15 15" xml:space="preserve">
-<polygon fill="#0057A6" points="3,11.8 1.3,3.9 3.6,3.5 3.9,11.8 "/>
-<path fill="#D6679C" d="M4,5L3.9,3.1c0,0,3.8-0.3,4,2.5C7.9,6,7.8,7,6.6,7.5C7.4,8,8.1,8.2,8.2,9.3c0,0.4,0,2.6-3.9,2.6
-	c0-0.6,0-0.7,0-0.7s1.7,0.2,2-1.3c0-0.4,0.2-1.3-1.8-1.4c0-0.4,0-0.9,0-0.9S6.2,7.2,6,6C6,5.5,5.8,5,4,5z"/>
-<polygon fill="#D6679C" points="8.8,11.9 9,3.1 10.9,3.2 10,11.9 "/>
-<path fill="#0057A6" d="M11,5.4l0.1-1.9c0,0,3.3-0.1,3.3,2.8c-0.1,0.8-0.3,1.8-2.2,2.6c0.2,0.5,1,2.7,1,2.7l-0.9,0.2l-1.7-2.6l0.2-1
-	c0,0,1.7-0.4,1.7-1.5C12.4,6.3,12.1,5.6,11,5.4z"/>
+<!-- Generator: Adobe Illustrator 20.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="レイヤー_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 15 15" enable-background="new 0 0 15 15" xml:space="preserve">
+<g id="thirtyone_1_">
+	<polygon fill="#31418C" points="1.9,11.9 0,2.8 2.5,2.4 2.9,11.9 	"/>
+	<path fill="#FF3399" d="M3.1,4.1L2.9,2c0,0,4.4-0.4,4.6,2.9C7.5,5.2,7.4,6.3,6,7c1,0.5,1.8,0.7,1.9,2c0,0.5,0,2.9-4.5,3
+		c0-0.7,0-0.8,0-0.8s2,0.3,2.3-1.5c0-0.5,0.2-1.5-2-1.7c0-0.5,0-1.1,0-1.1s1.9-0.3,1.8-1.7C5.4,4.7,5.1,4.1,3.1,4.1z"/>
+	<polygon fill="#FF3399" points="8.6,12 8.7,1.9 11,2.1 10,12 	"/>
+	<path fill="#31418C" d="M11.1,4.5l0.2-2.2c0,0,3.8-0.1,3.7,3.2c-0.1,0.9-0.4,2-2.6,3c0.2,0.6,1.2,3.1,1.2,3.1l-1.1,0.2l-1.9-2.9
+		l0.2-1.1c0,0,2-0.5,1.9-1.8C12.7,5.6,12.4,4.8,11.1,4.5z"/>
+</g>
 </svg>
