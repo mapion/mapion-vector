@@ -204,6 +204,14 @@
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 
+function parsePramameter(results) {
+    var pair=location.search.substring(1).split('&');
+    for (var i=0; pair[i]; i++) {
+        var kv = pair[i].split('=');
+        results[kv[0]]=kv[1];
+    }
+}
+
 function getCSSURL() {
     return PRODUCT ?
         'https://vt01.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.css' :
@@ -217,6 +225,11 @@ function getJSURL() {
 }
 
 function getStyleURL(type) {
+    var parameters = {};
+    parsePramameter(parameters);
+    if (parameters.styleurl)
+        return parameters.styleurl;
+
     var domain = PRODUCT ? 'https://vt01.mapion.co.jp/' : 'https://vt-stg.mapion.co.jp/';
     switch (type) {
         case 'standard':
