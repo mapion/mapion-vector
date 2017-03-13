@@ -214,14 +214,14 @@ function parsePramameter(results) {
 
 function getCSSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.css' :
-        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.css?random=' + Math.random();
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.css' :
+        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.css?random=' + Math.random();
 }
 
 function getJSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.26.0/mapion-gl.js' :
-        './mapion-gl-v0.26.0-nocache.js';
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.js' :
+        './mapbox-gl-dev-v0.33.1-nocache.js';
 }
 
 function getStyleURL(type) {
@@ -431,6 +431,44 @@ loadScript(getJSURL(), function() {
 
             map.getSource('geojson').setData(distanceFeatures);
 
+        });
+
+        map.addLayer({
+            'id': '3d-buildings',
+            'source': 'mapion',
+            'source-layer': 'p_town_building',
+            'filter': [
+                    "all",
+                    [
+                        "==",
+                        "prefix",
+                        "n10k"
+                    ],
+                    [
+                        "==",
+                        "elcode",
+                        "A50000"
+                    ]
+                ],
+            'type': 'fill-extrusion',
+            'minzoom': 15,
+            'paint': {
+                'fill-extrusion-color': '#f0f0f0',
+                'fill-extrusion-height': 25,
+                'fill-extrusion-base': 0,
+                'fill-extrusion-opacity': {
+                    "stops": [
+                        [
+                            15,
+                            0.6
+                        ],
+                        [
+                            17,
+                            0.3
+                        ]
+                    ]
+                }
+            }
         });
     });
 
