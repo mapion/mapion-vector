@@ -233,7 +233,7 @@ function getStyleURL(type) {
     var domain = PRODUCT ? 'https://vt01.mapion.co.jp/' : 'https://vt-stg.mapion.co.jp/';
     switch (type) {
         case 'standard':
-            return domain + 'vts/style/standard.json';
+            return domain + 'vts/style/standard-with-3d-buildings.json';
         break;
         case 'satellite':
             return domain + 'vts/style/style-satellite-street.json';
@@ -431,44 +431,6 @@ loadScript(getJSURL(), function() {
 
             map.getSource('geojson').setData(distanceFeatures);
 
-        });
-
-        map.addLayer({
-            'id': '3d-buildings',
-            'source': 'mapion',
-            'source-layer': 'p_town_building',
-            'filter': [
-                    "all",
-                    [
-                        "==",
-                        "prefix",
-                        "n10k"
-                    ],
-                    [
-                        "==",
-                        "elcode",
-                        "A50000"
-                    ]
-                ],
-            'type': 'fill-extrusion',
-            'minzoom': 15,
-            'paint': {
-                'fill-extrusion-color': '#f0f0f0',
-                'fill-extrusion-height': 25,
-                'fill-extrusion-base': 0,
-                'fill-extrusion-opacity': {
-                    "stops": [
-                        [
-                            15,
-                            0.6
-                        ],
-                        [
-                            17,
-                            0.3
-                        ]
-                    ]
-                }
-            }
         });
     });
 
