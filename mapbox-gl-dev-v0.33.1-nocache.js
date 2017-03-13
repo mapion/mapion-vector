@@ -30640,7 +30640,7 @@ exports.isMapboxURL = isMapboxURL;
 exports.normalizeStyleURL = function(url        , accessToken        )         {
     var urlObject = parseUrl(url);
     if (isMapionURL(url)) {
-        urlObject.params.push(("access_token=" + accessToken));
+        urlObject.params.push(("access_token=" + (accessToken || config.ACCESS_TOKEN)));
         urlObject.params.push("random=" + Math.random());
         return formatUrl(urlObject);
     }
@@ -30659,7 +30659,7 @@ exports.normalizeStyleURL = function(url        , accessToken        )         {
 exports.normalizeGlyphsURL = function(url        , accessToken        )         {
     var urlObject = parseUrl(url);
     if (isMapionURL(url)) {
-        urlObject.params.push(("access_token=" + accessToken));
+        urlObject.params.push(("access_token=" + (accessToken || config.ACCESS_TOKEN)));
         urlObject.params.push("random=" + Math.random());
         return formatUrl(urlObject);
     }
@@ -30688,7 +30688,8 @@ exports.normalizeSourceURL = function(url        , accessToken        )         
 exports.normalizeSpriteURL = function(url        , format        , extension        , accessToken        )         {
     var urlObject = parseUrl(url);
     if (isMapionURL(url)) {
-        urlObject.params.push(("access_token=" + accessToken));
+        urlObject.path += "" + format + extension;
+        urlObject.params.push(("access_token=" + (accessToken || config.ACCESS_TOKEN)));
         urlObject.params.push("random=" + Math.random());
         return formatUrl(urlObject);
     }
