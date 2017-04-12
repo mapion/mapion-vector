@@ -214,13 +214,13 @@ function parsePramameter(results) {
 
 function getCSSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.css' :
-        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.css?random=' + Math.random();
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.css' :
+        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.css?random=' + Math.random();
 }
 
 function getJSURL() {
     return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.33.1/mapbox-gl.js' :
+        'https://vt01.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.js' :
         './mapbox-gl-dev-v0.33.1-nocache.js';
 }
 
@@ -335,7 +335,7 @@ loadScript(getJSURL(), function() {
         alert('Your browser does not support Mapion GL');
     }
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.lmNmiPsLEWM-zNtBtFrN_G';
+    mapboxgl.accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 
     map = new mapboxgl.Map({
         container: 'map',
