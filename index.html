@@ -4,6 +4,7 @@
     <title>マピオンベクター</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://vt01.mapion.co.jp/mapion-gl-js/v0.37.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -32,31 +33,12 @@
             }
         }
 
-        .dekaji {
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            position: absolute;
-            width: 80px;
-            top: 0;
-            left: 0;
-            padding: 10px;
-        }
-        .dekaji .dekaji-inner {
-            background-color: rgba(255, 255, 255, 1);
-            border-radius: 5px;
-            padding: 2px;
-            margin-bottom: 10px;
-            box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-        }
-        .dekaji input, label {
-            cursor:pointer;
-        }
-
         .kyorisoku {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
             width: 80px;
             top: 0;
-            left: 90px;
+            left: 0;
             padding: 10px;
         }
         .kyorisoku .kyorisoku-inner {
@@ -69,82 +51,6 @@
         .kyorisoku input, label {
             cursor:pointer;
         }
-
-        .yuuryou {
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            position: absolute;
-            width: 80px;
-            top: 0;
-            left: 180px;
-            padding: 10px;
-        }
-        .yuuryou .yuuryou-inner {
-            background-color: rgba(255, 255, 255, 1);
-            border-radius: 5px;
-            padding: 2px;
-            margin-bottom: 10px;
-            box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-        }
-        .yuuryou input, label {
-            cursor:pointer;
-        }
-
-        @media screen and (min-width: 0px) and (max-device-width: 930px) {
-            .maptype {
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                position: absolute;
-                background-color: rgba(255,255,255,1);
-                margin:10px 0 0;
-                border-radius:13px;
-                vertical-align:middle;
-                top: 35px;
-                left: 10px;
-                padding: 2px;
-                width: 130px;
-                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-            }
-        }
-
-        @media screen and (min-device-width: 931px) {
-            .maptype {
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                position: absolute;
-                background-color: rgba(255,255,255,1);
-                margin:10px 0 0;
-                border-radius:13px;
-                vertical-align:middle;
-                top: 0;
-                right: 50px;
-                padding: 2px;
-                width: 130px;
-                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-            }
-        }
-        .maptype label {
-            cursor:pointer;
-            vertical-align:top;
-            display:block;
-            border-radius:13px;
-            padding:0 0;
-
-            color:rgba(0,0,0,.5);
-            line-height:20px;
-            text-align:center;
-            width:50%;
-            float:left;
-        }
-        .maptype label:hover {
-            color:rgba(0,0,0,.75);
-        }
-        .maptype input[type=radio] {
-            display:none;
-        }
-        .maptype input[type=radio]:checked + label:hover,
-        .maptype input[type=radio]:checked + label {
-            background:#eee;
-            color:rgba(0,0,0,.75);
-        }
-
 
         .help {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -173,34 +79,17 @@
 <div class='logo'>
     <a href='//www.mapion.co.jp/'><img src='mapion@2x.png' width='83' height='30'></a>
 </div>
-<div class='dekaji'>
-    <div class='dekaji-inner'>
-        <input id='dekaji_label' type='checkbox' name='rtoggle'>
-        <label for='dekaji_label'>でか文字</label>
-    </div>
-</div>
 <div class='kyorisoku'>
     <div class='kyorisoku-inner'>
         <input id='kyorisoku_label' type='checkbox' name='rtoggle'>
         <label for='kyorisoku_label'>距離測定</label>
     </div>
 </div>
-<div class='yuuryou'>
-    <div class='yuuryou-inner'>
-        <input id='yuuryou_label' type='checkbox' name='rtoggle' checked='checked'>
-        <label for='yuuryou_label'>有料道路</label>
-    </div>
-</div>
-<div class="maptype">
-    <input id="standard" type="radio" name="profile" checked="">
-    <label for="standard">標準地図</label>
-    <input id="satellite" type="radio" name="profile">
-    <label for="satellite">衛星地図</label>
-</div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
 </div>
 
+<script src='https://vt01.mapion.co.jp/mapion-gl-js/v0.37.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 
@@ -209,36 +98,6 @@ function parsePramameter(results) {
     for (var i=0; pair[i]; i++) {
         var kv = pair[i].split('=');
         results[kv[0]]=kv[1];
-    }
-}
-
-function getCSSURL() {
-    return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.css' :
-        'https://vt-stg.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.css?random=' + Math.random();
-}
-
-function getJSURL() {
-    return PRODUCT ?
-        'https://vt01.mapion.co.jp/mapion-gl-js/v0.34.0/mapbox-gl.js' :
-        './mapbox-gl-dev-v0.33.1-nocache.js';
-}
-
-function getStyleURL(type) {
-    var parameters = {};
-    parsePramameter(parameters);
-    if (parameters.styleurl)
-        return parameters.styleurl;
-
-    var domain = PRODUCT ? 'https://vt01.mapion.co.jp/' : 'https://vt-stg.mapion.co.jp/';
-    switch (type) {
-        case 'standard':
-            return domain + 'vts/style/standard-with-3d-buildings.json';
-        break;
-        case 'satellite':
-            return domain + 'vts/style/style-satellite-street.json';
-        break;
-        default:
     }
 }
 
@@ -295,61 +154,33 @@ function destroyKyorisoku() {
 
 function resetCheckbox() {
     destroyKyorisoku();
-    document.getElementById('dekaji_label').checked = false;
     document.getElementById('kyorisoku_label').checked = false;
-    document.getElementById('yuuryou_label').checked = true;
     kyorisokuMode = false;
-}
-
-function loadScript(src, callback) {
-    var done = false;
-    var head = document.getElementsByTagName('head')[0];
-    var script = document.createElement('script');
-    script.src = src;
-    head.appendChild(script);
-    // Attach handlers for all browsers
-    script.onload = script.onreadystatechange = function() {
-        if (!done && (!this.readyState ||
-                this.readyState === "loaded" || this.readyState === "complete")) {
-            done = true;
-            callback();
-            // Handle memory leak in IE
-            script.onload = script.onreadystatechange = null;
-            if (head && script.parentNode) {
-                head.removeChild(script);
-            }
-        }
-    };
 }
 
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
-var css = document.createElement('link');
-css.setAttribute('rel', 'stylesheet');
-css.setAttribute('href', getCSSURL());
-document.getElementsByTagName("head")[0].appendChild(css);
-
 var map; // for external use
-loadScript(getJSURL(), function() {
-    if (!mapboxgl.supported()) {
-        alert('Your browser does not support Mapion GL');
-    }
 
-    mapboxgl.accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
+if (!mapboxgl.supported()) {
+    alert('Your browser does not support Mapion GL');
+}
 
-    map = new mapboxgl.Map({
-        container: 'map',
-        center: [139.749792, 35.641690],
-        zoom: 16,
-        minZoom: 5,
-        maxZoom: 19,
-        style: getStyleURL('standard'),
-        hash: true
-    });
+mapboxgl.accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 
-    map.addControl(new mapboxgl.NavigationControl());
-    map.addControl(new mapboxgl.GeolocateControl({position: 'top-right'}));
-    map.addControl(new mapboxgl.ScaleControl({position: 'bottom-right'}));
+map = new mapboxgl.Map({
+    container: 'map',
+    center: [139.749792, 35.641690],
+    zoom: 16,
+    minZoom: 5,
+    maxZoom: 19,
+    style: 'https://vt01.mapion.co.jp/vts/style/standard-vts.json',
+    hash: true
+});
+
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.GeolocateControl());
+map.addControl(new mapboxgl.ScaleControl());
 
 /*
 % webmerc -o 5/25/15
@@ -358,159 +189,80 @@ loadScript(getJSURL(), function() {
 52.48278,163.124999
 */
 
-    map.setMaxBounds(new mapboxgl.LngLatBounds([106.874999, 5.615985], [163.124999, 52.48278]));
-    map.showTileBoundaries = PRODUCT?false:true;
+map.setMaxBounds(new mapboxgl.LngLatBounds([106.874999, 5.615985], [163.124999, 52.48278]));
+map.showTileBoundaries = PRODUCT?false:true;
 
-    map.on('load', function() {
-        /* でか字 */
-        roadLabel1DefaultSize = map.getLayoutProperty('road_label1', 'text-size');
-        roadLabel2DefaultSize = map.getLayoutProperty('road_label2', 'text-size');
-        roadLabel3DefaultSize = map.getLayoutProperty('road_label3', 'text-size');
-        nameVsOtherDefaultSize = map.getLayoutProperty('name_vs_other', 'text-size');
-        crossSymbolDefaultSize = map.getLayoutProperty('cross_symbol', 'text-size');
-        nameVsDefaultSize = map.getLayoutProperty('name_vs', 'text-size');
-        nameVsOnlyDefaultSize = map.getLayoutProperty('name_vs_only', 'text-size');
-        nameVsOnlyPlus1DefaultSize = map.getLayoutProperty('name_vs_only_plus1', 'text-size');
-        nameVsOnlyMinus1DefaultSize = map.getLayoutProperty('name_vs_only_minus1', 'text-size');
-        arriveOnlyDefaultSize = map.getLayoutProperty('arrive_only', 'text-size');
-        mapionPointsOnlyDefaultSize = map.getLayoutProperty('mapion_points_only', 'text-size');
-        mapionPointsDefaultSize = map.getLayoutProperty('mapion_points', 'text-size');
-        mapionPointsEkiDefaultSize = map.getLayoutProperty('mapion_points_eki', 'text-size').base;
-        mapionPointsBigDefaultSize = map.getLayoutProperty('mapion_points_big', 'text-size');
+map.on('load', function() {
 
-        /* キョリ測 */
-        map.on('click', function(e) {
-            if (!kyorisokuMode) return;
+    map.on('click', function(e) {
+        if (!kyorisokuMode) return;
 
-            var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+        var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
 
-            if (distanceFeatures.features.length > 1) distanceFeatures.features.pop();
+        if (distanceFeatures.features.length > 1) distanceFeatures.features.pop();
 
-            if (features.length) {
-                var id = features[0].properties.id;
-                distanceFeatures.features = distanceFeatures.features.filter(function(point) {
-                    return point.properties.id !== id;
-                });
-                if (features.length <= 1) {
-                    if (distancePopup) {
-                        distancePopup.remove();
-                        distancePopup = null;
-                    }
+        if (features.length) {
+            var id = features[0].properties.id;
+            distanceFeatures.features = distanceFeatures.features.filter(function(point) {
+                return point.properties.id !== id;
+            });
+            if (features.length <= 1) {
+                if (distancePopup) {
+                    distancePopup.remove();
+                    distancePopup = null;
                 }
-            } else {
-                var point = {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                            e.lngLat.lng,
-                            e.lngLat.lat
-                        ]
-                    },
-                    "properties": {
-                        "id": String(new Date().getTime())
-                    }
-                };
-
-                distanceFeatures.features.push(point);
             }
-
-            if (distanceFeatures.features.length > 1) {
-                linestring.geometry.coordinates = distanceFeatures.features.map(function(point) {
-                    return point.geometry.coordinates;
-                });
-
-                distanceFeatures.features.push(linestring);
-
-                var c = distanceFeatures.features[distanceFeatures.features.length-2].geometry.coordinates;
-                if (distancePopup === null) {
-                    distancePopup = new mapboxgl.Popup({closeButton: false, closeOnClick: false}).addTo(map);
-                }
-                distancePopup.setLngLat(c).setHTML(Math.round(turf.lineDistance(linestring).toLocaleString() * 1000) / 1000 + 'km');
-            }
-
-            map.getSource('geojson').setData(distanceFeatures);
-
-        });
-    });
-
-    map.on('mousemove', function (e) {
-        if (kyorisokuMode) {
-            var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
-            map.getCanvas().style.cursor = (features.length) ? 'default' : 'crosshair';
         } else {
-            map.getCanvas().style.cursor = 'default';
-        }
-    });
+            var point = {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                        e.lngLat.lng,
+                        e.lngLat.lat
+                    ]
+                },
+                "properties": {
+                    "id": String(new Date().getTime())
+                }
+            };
 
+            distanceFeatures.features.push(point);
+        }
+
+        if (distanceFeatures.features.length > 1) {
+            linestring.geometry.coordinates = distanceFeatures.features.map(function(point) {
+                return point.geometry.coordinates;
+            });
+
+            distanceFeatures.features.push(linestring);
+
+            var c = distanceFeatures.features[distanceFeatures.features.length-2].geometry.coordinates;
+            if (distancePopup === null) {
+                distancePopup = new mapboxgl.Popup({closeButton: false, closeOnClick: false}).addTo(map);
+            }
+            distancePopup.setLngLat(c).setHTML(Math.round(turf.lineDistance(linestring).toLocaleString() * 1000) / 1000 + 'km');
+        }
+
+        map.getSource('geojson').setData(distanceFeatures);
+
+    });
 });
 
-document.getElementById('dekaji_label').onclick = function(e) {
-    var dekaji_on = e.target.checked;
-
-    var times = dekaji_on ? 1.5 : 1;
-    map.setLayoutProperty('road_label1', 'text-size', roadLabel1DefaultSize*times);
-    map.setLayoutProperty('road_label2', 'text-size', roadLabel2DefaultSize*times);
-    map.setLayoutProperty('road_label3', 'text-size', roadLabel3DefaultSize*times);
-    map.setLayoutProperty('name_vs_other', 'text-size', nameVsOtherDefaultSize*times);
-    map.setLayoutProperty('cross_symbol', 'text-size', crossSymbolDefaultSize*times);
-    map.setLayoutProperty('name_vs', 'text-size', nameVsDefaultSize*times);
-    map.setLayoutProperty('name_vs_only', 'text-size', nameVsOnlyDefaultSize*times);
-    map.setLayoutProperty('name_vs_only_plus1', 'text-size', nameVsOnlyPlus1DefaultSize*times);
-    map.setLayoutProperty('name_vs_only_minus1', 'text-size', nameVsOnlyMinus1DefaultSize*times);
-    map.setLayoutProperty('arrive_only', 'text-size', arriveOnlyDefaultSize*times);
-    map.setLayoutProperty('mapion_points_only', 'text-size', mapionPointsOnlyDefaultSize*times);
-    map.setLayoutProperty('mapion_points', 'text-size', mapionPointsDefaultSize*times);
-    map.setLayoutProperty('mapion_points_eki', 'text-size', mapionPointsEkiDefaultSize*times);
-    map.setLayoutProperty('mapion_points_big', 'text-size', mapionPointsBigDefaultSize*times);
-
-};
-
-document.getElementById('yuuryou_label').onclick = function(e) {
-    var yuuryou_on = e.target.checked;
-    var visibility = yuuryou_on ? 'visible' : 'none';
-
-    var ids = ['10k_p_town_road_yuuryou', 'n10k_p_town_road_yuuryou', 'road_general3_yuuryou_case', 'road_general2_yuuryou_case',
-        'road_general1_yuuryou_case', 'road_local1_yuuryou_case', 'road_croad_yuuryou_case', , '10k_l_town_road_yuuryou',
-        'n10k_l_town_road_yuuryou', 'road_hiway1_keikaku', 'road_hiway1_case', 'road_hiway1_tunnel_case',
-        'road_hiway2_keikaku', 'road_hiway2_case', 'road_hiway2_tunnel_case'];
-
-    ids.forEach(function(id, index, array) {
-        try {
-            map.setLayoutProperty(id, 'visibility', visibility);
-        } catch (e) {}
-    });
-};
-
-function changeMap() {
-    return function(e) {
-        resetCheckbox();
-        map.setStyle(getStyleURL(e.target.id));
+map.on('mousemove', function (e) {
+    if (kyorisokuMode) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
+        map.getCanvas().style.cursor = (features.length) ? 'default' : 'crosshair';
+    } else {
+        map.getCanvas().style.cursor = 'default';
     }
-}
-document.getElementById('standard').onclick = changeMap();
-document.getElementById('satellite').onclick = changeMap();
+});
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
     e.target.checked ? initKyorisoku() : destroyKyorisoku();
     kyorisokuMode = e.target.checked;
 };
-
-var roadLabel1DefaultSize = 0;
-var roadLabel2DefaultSize = 0;
-var roadLabel3DefaultSize = 0;
-var nameVsOtherDefaultSize = 0;
-var crossSymbolDefaultSize = 0;
-var nameVsDefaultSize = 0;
-var nameVsOnlyDefaultSize = 0;
-var nameVsOnlyPlus1DefaultSize = 0;
-var nameVsOnlyMinus1DefaultSize = 0;
-var arriveOnlyDefaultSize = 0;
-var mapionPointsOnlyDefaultSize = 0;
-var mapionPointsDefaultSize = 0;
-var mapionPointsEkiDefaultSize = 0;
-var mapionPointsBigDefaultSize = 0;
 
 var distancePopup = null;
 var distanceFeatures;
