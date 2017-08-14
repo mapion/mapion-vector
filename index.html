@@ -52,6 +52,62 @@
             cursor:pointer;
         }
 
+        @media screen and (min-width: 0px) and (max-device-width: 930px) {
+            .maptype {
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                position: absolute;
+                background-color: rgba(255,255,255,1);
+                margin:10px 0 0;
+                border-radius:13px;
+                vertical-align:middle;
+                top: 35px;
+                left: 10px;
+                padding: 2px;
+                width: 130px;
+                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+            }
+        }
+
+        @media screen and (min-device-width: 931px) {
+            .maptype {
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                position: absolute;
+                background-color: rgba(255,255,255,1);
+                margin:10px 0 0;
+                border-radius:13px;
+                vertical-align:middle;
+                top: 0;
+                right: 50px;
+                padding: 2px;
+                width: 130px;
+                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+            }
+        }
+        .maptype label {
+            cursor:pointer;
+            vertical-align:top;
+            display:block;
+            border-radius:13px;
+            padding:0 0;
+
+            color:rgba(0,0,0,.5);
+            line-height:20px;
+            text-align:center;
+            width:50%;
+            float:left;
+        }
+        .maptype label:hover {
+            color:rgba(0,0,0,.75);
+        }
+        .maptype input[type=radio] {
+            display:none;
+        }
+        .maptype input[type=radio]:checked + label:hover,
+        .maptype input[type=radio]:checked + label {
+            background:#eee;
+            color:rgba(0,0,0,.75);
+        }
+
         .help {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
@@ -84,6 +140,12 @@
         <input id='kyorisoku_label' type='checkbox' name='rtoggle'>
         <label for='kyorisoku_label'>距離測定</label>
     </div>
+</div>
+<div class="maptype">
+    <input id="standard-vts" type="radio" name="profile" checked="">
+    <label for="standard-vts">標準地図</label>
+    <input id="base" type="radio" name="profile">
+    <label for="base">ベース地図</label>
 </div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
@@ -257,6 +319,15 @@ map.on('mousemove', function (e) {
         map.getCanvas().style.cursor = 'default';
     }
 });
+
+function changeMap() {
+    return function(e) {
+        resetCheckbox();
+        map.setStyle('https://vt01.mapion.co.jp/vts/style/' + e.target.id + '.json');
+    }
+}
+document.getElementById('standard-vts').onclick = changeMap();
+document.getElementById('base').onclick = changeMap();
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
