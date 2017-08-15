@@ -63,7 +63,7 @@
                 top: 35px;
                 left: 10px;
                 padding: 2px;
-                width: 130px;
+                width: 260px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -79,7 +79,7 @@
                 top: 0;
                 right: 50px;
                 padding: 2px;
-                width: 130px;
+                width: 260px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -93,7 +93,7 @@
             color:rgba(0,0,0,.5);
             line-height:20px;
             text-align:center;
-            width:50%;
+            width:33%;
             float:left;
         }
         .maptype label:hover {
@@ -142,10 +142,12 @@
     </div>
 </div>
 <div class="maptype">
-    <input id="standard-vts" type="radio" name="profile" checked="">
+    <input id="standard-vts" type="radio" name="profile">
     <label for="standard-vts">標準地図</label>
     <input id="base" type="radio" name="profile">
     <label for="base">ベース地図</label>
+    <input id="mono" type="radio" name="profile">
+    <label for="mono">モノトーン地図</label>
 </div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
@@ -161,6 +163,10 @@ function parsePramameter(results) {
         var kv = pair[i].split('=');
         results[kv[0]]=kv[1];
     }
+}
+
+function getAbsolutePath(name) {
+    return 'https://vt01.mapion.co.jp/vts/style/' + name + '.json';
 }
 
 function initKyorisoku() {
@@ -220,6 +226,12 @@ function resetCheckbox() {
     kyorisokuMode = false;
 }
 
+var params = {};
+parsePramameter(params);
+
+var style = params.style ? params.style : 'standard-vts'; // /mapion-vector/?style=base
+document.getElementById(style).checked = true;
+
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
 var map; // for external use
@@ -236,7 +248,7 @@ map = new mapboxgl.Map({
     zoom: 16,
     minZoom: 5,
     maxZoom: 19,
-    style: 'https://vt01.mapion.co.jp/vts/style/standard-vts.json',
+    style: getAbsolutePath(style),
     hash: true
 });
 
@@ -323,11 +335,12 @@ map.on('mousemove', function (e) {
 function changeMap() {
     return function(e) {
         resetCheckbox();
-        map.setStyle('https://vt01.mapion.co.jp/vts/style/' + e.target.id + '.json');
+        map.setStyle(getAbsolutePath(e.target.id));
     }
 }
 document.getElementById('standard-vts').onclick = changeMap();
 document.getElementById('base').onclick = changeMap();
+document.getElementById('mono').onclick = changeMap();
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
