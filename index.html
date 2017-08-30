@@ -4,7 +4,7 @@
     <title>マピオンベクター</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://vt01.mapion.co.jp/mapion-gl-js/v0.37.0-2/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://vt01.mapion.co.jp/mapion-gl-js/v0.38.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -63,7 +63,7 @@
                 top: 35px;
                 left: 10px;
                 padding: 2px;
-                width: 280px;
+                width: 360px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -79,7 +79,7 @@
                 top: 0;
                 right: 50px;
                 padding: 2px;
-                width: 280px;
+                width: 360px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -93,7 +93,7 @@
             color:rgba(0,0,0,.5);
             line-height:20px;
             text-align:center;
-            width:33%;
+            width:25%;
             float:left;
         }
         .maptype label:hover {
@@ -148,12 +148,14 @@
     <label for="base">ベース地図</label>
     <input id="mono" type="radio" name="profile">
     <label for="mono">モノトーン地図</label>
+    <input id="osm" type="radio" name="profile">
+    <label for="osm">OSM地図</label>
 </div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
 </div>
 
-<script src='https://vt01.mapion.co.jp/mapion-gl-js/v0.37.0-2/mapbox-gl.js'></script>
+<script src='https://vt01.mapion.co.jp/mapion-gl-js/v0.38.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 
@@ -255,6 +257,7 @@ map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(new mapboxgl.GeolocateControl());
 map.addControl(new mapboxgl.ScaleControl());
+map.addControl(new mapboxgl.FullscreenControl());
 
 /*
 % webmerc -o 5/25/15
@@ -341,6 +344,7 @@ function changeMap() {
 document.getElementById('standard-vts').onclick = changeMap();
 document.getElementById('base').onclick = changeMap();
 document.getElementById('mono').onclick = changeMap();
+document.getElementById('osm').onclick = changeMap();
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
