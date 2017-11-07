@@ -4,7 +4,7 @@
     <title>マピオンベクター</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://vt01.mapion.co.jp/mapion-gl-js/v0.38.0/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -142,20 +142,20 @@
     </div>
 </div>
 <div class="maptype">
-    <input id="standard-vts" type="radio" name="profile">
-    <label for="standard-vts">標準地図</label>
-    <input id="base" type="radio" name="profile">
-    <label for="base">ベース地図</label>
-    <input id="mono" type="radio" name="profile">
-    <label for="mono">モノトーン地図</label>
-    <input id="osm" type="radio" name="profile">
-    <label for="osm">OSM地図</label>
+    <input id="standard-vts-direct" type="radio" name="profile">
+    <label for="standard-vts-direct">標準地図</label>
+    <input id="base-direct" type="radio" name="profile">
+    <label for="base-direct">ベース地図</label>
+    <input id="mono-direct" type="radio" name="profile">
+    <label for="mono-direct">モノトーン地図</label>
+    <input id="osm-direct" type="radio" name="profile">
+    <label for="osm-direct">OSM地図</label>
 </div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
 </div>
 
-<script src='https://vt01.mapion.co.jp/mapion-gl-js/v0.38.0/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 
@@ -168,7 +168,7 @@ function parsePramameter(results) {
 }
 
 function getAbsolutePath(name) {
-    return 'https://vt01.mapion.co.jp/vts/style/' + name + '.json';
+    return 'https://vt01.mapion.co.jp/vts/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 }
 
 function initKyorisoku() {
@@ -231,7 +231,7 @@ function resetCheckbox() {
 var params = {};
 parsePramameter(params);
 
-var style = params.style ? params.style : 'standard-vts'; // /mapion-vector/?style=base
+var style = params.style ? params.style : 'standard-vts-direct'; // /mapion-vector/?style=base
 document.getElementById(style).checked = true;
 
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
@@ -241,8 +241,6 @@ var map; // for external use
 if (!mapboxgl.supported()) {
     alert('Your browser does not support Mapion GL');
 }
-
-mapboxgl.accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 
 map = new mapboxgl.Map({
     container: 'map',
@@ -341,10 +339,10 @@ function changeMap() {
         map.setStyle(getAbsolutePath(e.target.id));
     }
 }
-document.getElementById('standard-vts').onclick = changeMap();
-document.getElementById('base').onclick = changeMap();
-document.getElementById('mono').onclick = changeMap();
-document.getElementById('osm').onclick = changeMap();
+document.getElementById('standard-vts-direct').onclick = changeMap();
+document.getElementById('base-direct').onclick = changeMap();
+document.getElementById('mono-direct').onclick = changeMap();
+document.getElementById('osm-direct').onclick = changeMap();
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
