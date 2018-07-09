@@ -4,7 +4,7 @@
     <title>マピオンベクター</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -63,7 +63,7 @@
                 top: 35px;
                 left: 10px;
                 padding: 2px;
-                width: 360px;
+                width: 280px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -79,7 +79,7 @@
                 top: 0;
                 right: 50px;
                 padding: 2px;
-                width: 360px;
+                width: 280px;
                 box-shadow:0 0 0 2px rgba(0,0,0,0.1);
             }
         }
@@ -93,7 +93,7 @@
             color:rgba(0,0,0,.5);
             line-height:20px;
             text-align:center;
-            width:25%;
+            width:33%;
             float:left;
         }
         .maptype label:hover {
@@ -142,12 +142,10 @@
     </div>
 </div>
 <div class="maptype">
-    <input id="standard-vts-direct" type="radio" name="profile">
-    <label for="standard-vts-direct">標準地図</label>
-    <input id="base-direct" type="radio" name="profile">
-    <label for="base-direct">ベース地図</label>
-    <input id="mono-direct" type="radio" name="profile">
-    <label for="mono-direct">モノトーン地図</label>
+    <input id="lab" type="radio" name="profile">
+    <label for="lab">ラボ地図</label>
+    <input id="mono" type="radio" name="profile">
+    <label for="mono">モノトーン地図</label>
     <input id="osm-direct" type="radio" name="profile">
     <label for="osm-direct">OSM地図</label>
 </div>
@@ -155,7 +153,7 @@
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
 </div>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 
@@ -168,7 +166,16 @@ function parsePramameter(results) {
 }
 
 function getAbsolutePath(name) {
-    return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
+    // return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
+
+    switch (name) {
+    case 'lab':
+        return 'https://vt-stg.mapion.co.jp/mvt-styler2/projects/4/style.json';
+    case 'mono':
+        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/64/style.json';
+    default:
+        return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
+    }
 }
 
 function initKyorisoku() {
@@ -231,7 +238,7 @@ function resetCheckbox() {
 var params = {};
 parsePramameter(params);
 
-var style = params.style ? params.style : 'standard-vts-direct'; // /mapion-vector/?style=base
+var style = params.style ? params.style : 'lab'; // /mapion-vector/?style=base
 document.getElementById(style).checked = true;
 
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
@@ -254,8 +261,8 @@ map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(new mapboxgl.GeolocateControl());
-map.addControl(new mapboxgl.ScaleControl());
 map.addControl(new mapboxgl.FullscreenControl());
+map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
 
 /*
 % webmerc -o 5/25/15
@@ -265,7 +272,7 @@ map.addControl(new mapboxgl.FullscreenControl());
 */
 
 // map.setMaxBounds(new mapboxgl.LngLatBounds([106.874999, 5.615985], [163.124999, 52.48278]));
-map.showTileBoundaries = PRODUCT?false:true;
+// map.showTileBoundaries = PRODUCT?false:true;
 
 map.on('load', function() {
 
@@ -339,9 +346,8 @@ function changeMap() {
         map.setStyle(getAbsolutePath(e.target.id));
     }
 }
-document.getElementById('standard-vts-direct').onclick = changeMap();
-document.getElementById('base-direct').onclick = changeMap();
-document.getElementById('mono-direct').onclick = changeMap();
+document.getElementById('lab').onclick = changeMap();
+document.getElementById('mono').onclick = changeMap();
 document.getElementById('osm-direct').onclick = changeMap();
 
 var kyorisokuMode = false;
