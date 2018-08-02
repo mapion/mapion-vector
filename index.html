@@ -357,10 +357,12 @@ map.on('mousemove', function (e) {
 });
 
 function poiOnClick(e, name) {
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(name)
-        .addTo(map);
+    if (!kyorisokuMode) {
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(name)
+            .addTo(map);
+    }
 }
 
 function changeMap() {
