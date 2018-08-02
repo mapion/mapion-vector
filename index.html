@@ -329,6 +329,22 @@ map.on('load', function() {
         map.getSource('geojson').setData(distanceFeatures);
 
     });
+
+    map.on('click', 'middle_annotation 文字とアイコン', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'base_annotation 文字とアイコン', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'city_annotation 文字とアイコン', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'ロゴ', function (e) {
+        poiOnClick(e, e.features[0].properties.poi_name);
+    });
+    map.on('click', 'ロゴ（名称）', function (e) {
+        poiOnClick(e, e.features[0].properties.poi_name);
+    });
 });
 
 map.on('mousemove', function (e) {
@@ -339,6 +355,13 @@ map.on('mousemove', function (e) {
         map.getCanvas().style.cursor = 'default';
     }
 });
+
+function poiOnClick(e, name) {
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(name)
+        .addTo(map);
+}
 
 function changeMap() {
     return function(e) {
