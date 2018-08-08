@@ -357,7 +357,7 @@ map.on('mousemove', function (e) {
 });
 
 function poiOnClick(e, name) {
-    if (!kyorisokuMode) {
+    if (!kyorisokuMode && name) {
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(name)
