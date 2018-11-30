@@ -10,6 +10,43 @@
         html, body { height: 100%; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
 
+        .map-layer {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            width: 200px;
+            top: 0;
+            left: 0;
+            padding: 10px;
+        }
+
+        .map-layer .map-layer-inner {
+            background-color: #fff;
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow:0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        .map-layer-inner fieldset {
+            border: none;
+            padding: 0;
+            margin: 0 0 10px;
+        }
+
+        .map-layer-inner fieldset:last-child {
+            margin: 0;
+        }
+
+        .map-layer-inner select {
+            width: 100%;
+        }
+
+        .map-layer-inner label {
+            display: block;
+            font-weight: bold;
+            margin: 0 0 5px;
+        }
+
         @media screen and (min-width: 0px) and (max-device-width: 930px) {
             .logo {
                 position: absolute;
@@ -38,7 +75,7 @@
             position: absolute;
             width: 80px;
             top: 0;
-            left: 0;
+            right: 40px;
             padding: 10px;
         }
         .kyorisoku .kyorisoku-inner {
@@ -50,62 +87,6 @@
         }
         .kyorisoku input, label {
             cursor:pointer;
-        }
-
-        @media screen and (min-width: 0px) and (max-device-width: 930px) {
-            .maptype {
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                position: absolute;
-                background-color: rgba(255,255,255,1);
-                margin:10px 0 0;
-                border-radius:13px;
-                vertical-align:middle;
-                top: 35px;
-                left: 10px;
-                padding: 2px;
-                width: 280px;
-                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-            }
-        }
-
-        @media screen and (min-device-width: 931px) {
-            .maptype {
-                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-                position: absolute;
-                background-color: rgba(255,255,255,1);
-                margin:10px 0 0;
-                border-radius:13px;
-                vertical-align:middle;
-                top: 0;
-                right: 50px;
-                padding: 2px;
-                width: 280px;
-                box-shadow:0 0 0 2px rgba(0,0,0,0.1);
-            }
-        }
-        .maptype label {
-            cursor:pointer;
-            vertical-align:top;
-            display:block;
-            border-radius:13px;
-            padding:0 0;
-
-            color:rgba(0,0,0,.5);
-            line-height:20px;
-            text-align:center;
-            width:33%;
-            float:left;
-        }
-        .maptype label:hover {
-            color:rgba(0,0,0,.75);
-        }
-        .maptype input[type=radio] {
-            display:none;
-        }
-        .maptype input[type=radio]:checked + label:hover,
-        .maptype input[type=radio]:checked + label {
-            background:#eee;
-            color:rgba(0,0,0,.75);
         }
 
         .help {
@@ -132,6 +113,29 @@
 
 <body>
 <div id='map'></div>
+<div class='map-layer top'>
+    <div class='map-layer-inner'>
+        <fieldset>
+            <label>地図を選択</label>
+            <select id='layer' name='layer' onchange='onlayer(this)'>
+                <option value='lab'>ラボ地図</option>
+                <option value='with-en'>ラボ地図（with英語）</option>
+                <option value='mono'>モノトーン地図</option>
+                <option value='osm'>OSM地図</option>
+            </select>
+        </fieldset>
+        <fieldset id='lang-field'>
+            <label>言語を選択</label>
+            <select id='change-lang' name='change-lang' onchange='switchLanguage(this)'>
+                <option value='lang'>日本語</option>
+                <option value='lang_en'>英語</option>
+                <option value='lang_cn'>中国語（簡体字）</option>
+                <option value='lang_tw'>中国語（繁体字）</option>
+                <option value='lang_ko'>韓国語</option>
+            </select>
+        </fieldset>
+    </div>
+</div>
 <div class='logo'>
     <a href='//www.mapion.co.jp/'><img src='mapion@2x.png' width='83' height='30'></a>
 </div>
@@ -140,14 +144,6 @@
         <input id='kyorisoku_label' type='checkbox' name='rtoggle'>
         <label for='kyorisoku_label'>距離測定</label>
     </div>
-</div>
-<div class="maptype">
-    <input id="lab" type="radio" name="profile">
-    <label for="lab">ラボ地図</label>
-    <input id="mono" type="radio" name="profile">
-    <label for="mono">モノトーン地図</label>
-    <input id="osm-direct" type="radio" name="profile">
-    <label for="osm-direct">OSM地図</label>
 </div>
 <div class='help'>
 <a href='./help.html'>HELP</a>&nbsp;|&nbsp;<a href='https://form.jotform.me/62729205497464' target='_blank'>フィードバックの送信</a>
@@ -171,8 +167,12 @@ function getAbsolutePath(name) {
     switch (name) {
     case 'lab':
         return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/65/style.json';
+    case 'with-en':
+        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/75/style.json';
     case 'mono':
         return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/64/style.json';
+    case 'osm':
+        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/29/style.json';
     default:
         return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
     }
@@ -235,11 +235,185 @@ function resetCheckbox() {
     kyorisokuMode = false;
 }
 
+function onlayer(select) {
+    var langField = document.getElementById('lang-field');
+    if (select.value === 'lab') {
+        document.getElementById('change-lang').value = 'lang';
+        langField.style.display = 'block';
+    } else {
+        langField.style.display = 'none';
+    }
+
+    resetCheckbox();
+    map.setStyle(getAbsolutePath(select.value));
+}
+
+function prepare() {
+    
+    var fonts = map.getLayoutProperty('島_群島_諸島_半島_岬', 'text-font');
+    if (fonts.indexOf('Noto Sans Regular') >= 0 || fonts.indexOf('Noto Sans Bold') >= 0)
+        return;
+
+    addFont('島_群島_諸島_半島_岬', 'Noto Sans Regular');
+    addFont('middle_annotation 文字のみ', 'Noto Sans Regular');
+    addFont('middle_annotation 国道番号', 'Noto Sans Regular');
+    addFont('middle_annotation 文字とアイコン', 'Noto Sans Regular');
+    addFont('middle_annotation 政令指定都市区役所', 'Noto Sans Regular');
+    addFont('middle_annotation ランプ', 'Noto Sans Regular');
+    addFont('middle_annotation ジャンクション', 'Noto Sans Regular');
+    addFont('middle_annotation インターチェンジ', 'Noto Sans Regular');
+    addFont('base_annotation 文字のみ', 'Noto Sans Regular');
+    addFont('base_annotation 主要地方道番号', 'Noto Sans Regular');
+    addFont('base_annotation 国道番号', 'Noto Sans Regular');
+    addFont('base_annotation 文字とアイコン', 'Noto Sans Regular');
+    addFont('base_annotation 政令指定都市区役所', 'Noto Sans Regular');
+    addFont('主要交差点', 'Noto Sans Regular');
+    addFont('base_annotation ランプ', 'Noto Sans Regular');
+    addFont('base_annotation ジャンクション', 'Noto Sans Regular');
+    addFont('base_annotation インターチェンジ', 'Noto Sans Regular');
+    addFont('city_annotation 文字のみ', 'Noto Sans Regular');
+    addFont('city_annotation 国道番号', 'Noto Sans Regular');
+    addFont('city_annotation 文字とアイコン', 'Noto Sans Regular');
+    addFont('city_annotation 政令指定都市区役所', 'Noto Sans Regular');
+    addFont('city_annotation ランプ', 'Noto Sans Regular');
+    addFont('city_annotation ジャンクション', 'Noto Sans Regular');
+    addFont('中縮尺用インターチェンジ', 'Noto Sans Regular');
+    addFont('中縮尺用インターチェンジ simple', 'Noto Sans Regular');
+    addFont('city_annotation インターチェンジ', 'Noto Sans Regular');
+
+    addFont('主要都市名', 'Noto Sans Bold');
+    addFont('都道府県名', 'Noto Sans Bold');
+    addFont('top_annotation 海', 'Noto Sans Bold');
+    addFont('middle_annotation 海', 'Noto Sans Bold');
+    addFont('middle_annotation 河川・沢・谷', 'Noto Sans Bold');
+    addFont('middle_annotation 湖・池・沼', 'Noto Sans Bold');
+    addFont('middle_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
+    addFont('middle_annotation 大字・町', 'Noto Sans Bold');
+    addFont('middle_annotation 市区町村', 'Noto Sans Bold');
+    addFont('middle_annotation 都道府県名', 'Noto Sans Bold');
+    addFont('base_annotation 海', 'Noto Sans Bold');
+    addFont('base_annotation 河川・沢・谷', 'Noto Sans Bold');
+    addFont('base_annotation 湖・池・沼', 'Noto Sans Bold');
+    addFont('base_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
+    addFont('base_annotation 丁目・字', 'Noto Sans Bold');
+    addFont('base_annotation 条丁目', 'Noto Sans Bold');
+    addFont('base_annotation 大字・町', 'Noto Sans Bold');
+    addFont('base_annotation 市区町村', 'Noto Sans Bold');
+    addFont('base_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'Noto Sans Bold');
+    addFont('base_annotation テーマパーク', 'Noto Sans Bold');
+    addFont('base_annotation 駅', 'Noto Sans Bold');
+    addFont('city_annotation 海', 'Noto Sans Bold');
+    addFont('city_annotation 河川・沢・谷', 'Noto Sans Bold');
+    addFont('city_annotation 湖・池・沼', 'Noto Sans Bold');
+    addFont('city_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
+    addFont('city_annotation 丁目・字', 'Noto Sans Bold');
+    addFont('city_annotation 大字・町', 'Noto Sans Bold');
+    addFont('city_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'Noto Sans Bold');
+    addFont('city_annotation テーマパーク', 'Noto Sans Bold');
+    addFont('city_annotation 駅', 'Noto Sans Bold');
+}
+
+function addFont(id, font) {
+    var fonts = map.getLayoutProperty(id, 'text-font');
+    fonts.push(font);
+    map.setLayoutProperty(id, 'text-font', fonts);
+}
+
+function switchLanguage(select) {
+    prepare();
+    var langName = select.value.replace('lang', '');
+    var textFieldId = 'name_string1' + langName;
+
+    map.setLayoutProperty('主要都市名', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('島_群島_諸島_半島_岬', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('都道府県名', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('top_annotation 海', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 文字のみ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 海', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 河川・沢・谷', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 湖・池・沼', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 湾・灘（海岸名）', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 国道番号', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 大字・町', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 市区町村', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 文字とアイコン', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 政令指定都市区役所', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation 都道府県名', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation ランプ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation ジャンクション', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('middle_annotation インターチェンジ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 文字のみ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 海', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 河川・沢・谷', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 湖・池・沼', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 湾・灘（海岸名）', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 主要地方道番号', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 国道番号', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 丁目・字', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 条丁目', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 大字・町', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 市区町村', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 文字とアイコン', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 政令指定都市区役所', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation テーマパーク', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('主要交差点', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation ランプ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation ジャンクション', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation インターチェンジ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('base_annotation 駅', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 文字のみ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 海', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 河川・沢・谷', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 湖・池・沼', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 湾・灘（海岸名）', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 国道番号', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 丁目・字', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 大字・町', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 文字とアイコン', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 政令指定都市区役所', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation テーマパーク', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation ランプ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation ジャンクション', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('中縮尺用インターチェンジ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('中縮尺用インターチェンジ simple', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation インターチェンジ', 'text-field', `{${textFieldId}}`);
+    map.setLayoutProperty('city_annotation 駅', 'text-field', `{${textFieldId}}`);
+
+    setIconImage('middle_annotation 国道番号', langName);
+    setIconImage('middle_annotation ランプ', langName);
+    setIconImage('middle_annotation ジャンクション', langName);
+    setIconImage('middle_annotation インターチェンジ', langName);
+    setIconImage('base_annotation 主要地方道番号', langName);
+    setIconImage('base_annotation 国道番号', langName);
+    setIconImage('主要交差点', langName);
+    setIconImage('base_annotation ランプ', langName);
+    setIconImage('base_annotation ジャンクション', langName);
+    setIconImage('base_annotation インターチェンジ', langName);
+    setIconImage('city_annotation 国道番号', langName);
+    setIconImage('city_annotation ランプ', langName);
+    setIconImage('city_annotation ジャンクション', langName);
+    setIconImage('中縮尺用インターチェンジ', langName);
+    setIconImage('中縮尺用インターチェンジ simple', langName);
+    setIconImage('city_annotation インターチェンジ', langName);
+}
+
+function setIconImage(layerName, langName) {
+    var iconImage = map.getLayoutProperty(layerName, 'icon-image');
+    var lenIndexStart = iconImage.indexOf('{') + 1;
+    var lenIndexEnd = iconImage.indexOf('}');
+    var lenName = iconImage.substring(lenIndexStart, lenIndexEnd);
+    var reIconImage = iconImage.replace(lenName, 'len' + langName);
+
+    map.setLayoutProperty(layerName, 'icon-image', reIconImage);
+}
+
 var params = {};
 parsePramameter(params);
 
 var style = params.style ? params.style : 'lab'; // /mapion-vector/?style=base
-document.getElementById(style).checked = true;
+// document.getElementById(style).checked = true;
 
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
@@ -364,16 +538,6 @@ function poiOnClick(e, name) {
             .addTo(map);
     }
 }
-
-function changeMap() {
-    return function(e) {
-        resetCheckbox();
-        map.setStyle(getAbsolutePath(e.target.id));
-    }
-}
-document.getElementById('lab').onclick = changeMap();
-document.getElementById('mono').onclick = changeMap();
-document.getElementById('osm-direct').onclick = changeMap();
 
 var kyorisokuMode = false;
 document.getElementById('kyorisoku_label').onclick = function(e) {
