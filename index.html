@@ -414,6 +414,8 @@ function prepare() {
         return;
 
     addFont('島_群島_諸島_半島_岬', 'Noto Sans Regular');
+    addFont('島_群島_諸島_半島_岬 国後島 択捉島 歯舞群島のみ', 'Noto Sans Regular');
+    addFont('島_群島_諸島_半島_岬 色丹島のみ', 'Noto Sans Regular');
     addFont('middle_annotation 文字のみ', 'Noto Sans Regular');
     addFont('middle_annotation 国道番号', 'Noto Sans Regular');
     addFont('middle_annotation 文字とアイコン', 'Noto Sans Regular');
@@ -485,6 +487,8 @@ function switchLanguage(select) {
 
     map.setLayoutProperty('主要都市名', 'text-field', textFieldId);
     map.setLayoutProperty('島_群島_諸島_半島_岬', 'text-field', textFieldId);
+    map.setLayoutProperty('島_群島_諸島_半島_岬 国後島 択捉島 歯舞群島のみ', 'text-field', textFieldId);
+    map.setLayoutProperty('島_群島_諸島_半島_岬 色丹島のみ', 'text-field', textFieldId);
     map.setLayoutProperty('都道府県名', 'text-field', textFieldId);
     map.setLayoutProperty('top_annotation 海', 'text-field', textFieldId);
     map.setLayoutProperty('middle_annotation 文字のみ', 'text-field', textFieldId);
