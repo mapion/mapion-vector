@@ -19,6 +19,8 @@
   - POIをクリックすることにより、POI名をポップアップ表示することができます
 - 過去の地震
   - 過去の地震発生状況をヒートマップで表示することができます
+  - マグニチュードが大きいほど色が濃くなります
+  - また複数発生するほど色が濃くなります
   - 地震データは [USGS](https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits) のAPIを利用しています
 
 対応ブラウザ
