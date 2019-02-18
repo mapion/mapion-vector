@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -176,9 +176,10 @@
 <a href='./help.html'>HELP</a>
 </div>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
+var accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 
 function parsePramameter(results) {
     var pair=location.search.substring(1).split('&');
@@ -189,19 +190,17 @@ function parsePramameter(results) {
 }
 
 function getAbsolutePath(name) {
-    // return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
-
     switch (name) {
     case 'lab':
-        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/65/style.json';
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
     case 'with-en':
-        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/75/style.json';
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
     case 'mono':
-        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/64/style.json';
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/mono.json?access_token=' + accessToken;
     case 'osm':
-        return 'https://vt-stg.mapion.co.jp/mvt-styler/projects/29/style.json';
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
     default:
-        return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
+        return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=' + accessToken;
     }
 }
 
