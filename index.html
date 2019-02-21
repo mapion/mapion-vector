@@ -124,6 +124,18 @@
             text-decoration: underline;
         }
 
+        #init {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            right: 250px;
+            top: 10px;
+            border: 0;
+            cursor: pointer;
+            color:#fff;
+            background-color: rgb(64,135,200);
+            border-radius:5px;
+        }
+
     </style>
 </head>
 
@@ -151,6 +163,9 @@
             </select>
         </fieldset>
     </div>
+</div>
+<div class='mapboxgl-ctrlaaa'>
+    <button id='init'>初期位置に戻る</button>
 </div>
 <div class='kyorisoku'>
     <div class='kyorisoku-inner'>
@@ -581,14 +596,17 @@ var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
 var map; // for external use
 
+var DEFAULT_CENTER = [139.749792, 35.641690];
+var DEFAULT_ZOOM_LEVEL = 16;
+
 if (!mapboxgl.supported()) {
     alert('Your browser does not support Mapion GL');
 }
 
 map = new mapboxgl.Map({
     container: 'map',
-    center: [139.749792, 35.641690],
-    zoom: 16,
+    center: DEFAULT_CENTER,
+    zoom: DEFAULT_ZOOM_LEVEL,
     minZoom: 5,
     maxZoom: 19,
     style: getAbsolutePath(style),
@@ -680,6 +698,11 @@ map.on('load', function() {
     });
     map.on('click', 'ロゴ（名称）', function (e) {
         poiOnClick(e, e.features[0].properties.poi_name);
+    });
+
+    document.getElementById('init').addEventListener('click', function(e) {
+        e.target.blur();
+        map.flyTo({center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM_LEVEL, bearing: 0, pitch: 0});
     });
 });
 
