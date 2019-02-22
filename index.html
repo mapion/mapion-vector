@@ -23,7 +23,7 @@
         .map-layer .map-layer-inner {
             background-color: #fff;
             border-radius: 5px;
-            padding: 8px;
+            padding: 5px;
             margin-bottom: 10px;
             box-shadow:0 0 0 2px rgba(0,0,0,0.1);
         }
@@ -59,7 +59,7 @@
         .kyorisoku .kyorisoku-inner {
             background-color: rgba(255, 255, 255, 1);
             border-radius: 5px;
-            padding: 2px;
+            padding: 5px;
             margin-bottom: 10px;
             box-shadow:0 0 0 2px rgba(0,0,0,0.1);
         }
@@ -124,11 +124,18 @@
             text-decoration: underline;
         }
 
-        #init {
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        .init {
             position: absolute;
-            right: 250px;
-            top: 10px;
+            right: 40px;
+            top: 65px;
+            padding: 10px;
+            
+        }
+
+        #init-inner {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            padding: 5px;
+            margin-bottom: 10px;
             border: 0;
             cursor: pointer;
             color:#fff;
@@ -164,8 +171,8 @@
         </fieldset>
     </div>
 </div>
-<div class='mapboxgl-ctrlaaa'>
-    <button id='init'>初期位置に戻る</button>
+<div class='init'>
+    <button id='init-inner'>初期位置に戻る</button>
 </div>
 <div class='kyorisoku'>
     <div class='kyorisoku-inner'>
@@ -700,7 +707,7 @@ map.on('load', function() {
         poiOnClick(e, e.features[0].properties.poi_name);
     });
 
-    document.getElementById('init').addEventListener('click', function(e) {
+    document.getElementById('init-inner').addEventListener('click', function(e) {
         e.target.blur();
         map.flyTo({center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM_LEVEL, bearing: 0, pitch: 0});
     });
