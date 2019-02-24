@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0 - 2019.02.18
+
+- Mapbox GL JS v0.53.0
+
 ## 1.10.0 - 2019.02.06
 
 - Mapbox GL JS v0.52.0
