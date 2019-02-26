@@ -214,13 +214,13 @@ function parsePramameter(results) {
 function getAbsolutePath(name) {
     switch (name) {
     case 'lab':
-        return 'https://vt-stg.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
+        return 'https://vt01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
     case 'with-en':
-        return 'https://vt-stg.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
+        return 'https://vt01.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
     case 'mono':
-        return 'https://vt-stg.mapion.co.jp/gl-server/style/mono.json?access_token=' + accessToken;
+        return 'https://vt01.mapion.co.jp/gl-server/style/mono.json?access_token=' + accessToken;
     case 'osm':
-        return 'https://vt-stg.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
+        return 'https://vt01.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
     default:
         return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=' + accessToken;
     }
