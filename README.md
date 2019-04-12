@@ -22,6 +22,8 @@
   - マグニチュードが大きいほど色が濃くなります
   - また近くで複数発生するとズームアウトで統合され大きさが大きくなり色も濃くなります
   - 地震データは [USGS](https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits) のAPIを利用しています
+- 気球を表示
+  - Viva Balloon [© KevinAz61](https://sketchfab.com/KevinAz61) [Licensed under CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 
 
 対応ブラウザ
 ==========
