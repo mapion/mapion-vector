@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.1 - 2019.06.26
+
+- 地図を変更するとlocalIdeographFontFamilyがリセットされてしまうためMapbox GL JS v0.53.1に戻す
+
 ## 1.13.0 - 2019.05.25
 
 - Mapbox GL JS v1.0.0
