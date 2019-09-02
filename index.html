@@ -48,6 +48,24 @@
             margin: 0 0 5px;
         }
 
+        .distance-container {
+            position: absolute;
+            top: 10px;
+            left: 170px;
+            z-index: 1;
+        }
+            
+        .distance-container > * {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 11px;
+            line-height: 18px;
+            display: block;
+            margin: 0;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
         .kyorisoku {
             font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
@@ -196,6 +214,7 @@
         </fieldset>
     </div>
 </div>
+<div id='distance' class='distance-container'></div>
 <div class='help'>
 <a href='./help.html'>HELP</a>
 </div>
@@ -229,16 +248,27 @@ function getAbsolutePath(name) {
 }
 
 function initKyorisoku() {
-    distanceFeatures = {
+    // GeoJSON object to hold our measurement features
+    geojson = {
         "type": "FeatureCollection",
         "features": []
+    };
+    
+    // Used to draw a line between points
+    linestring = {
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": []
+        }
     };
 
     map.addSource('geojson', {
         "type": "geojson",
-        "data": distanceFeatures
+        "data": geojson
     });
-
+    
+    // Add styles to the map
     map.addLayer({
         id: 'measure-points',
         type: 'circle',
@@ -249,33 +279,29 @@ function initKyorisoku() {
         },
         filter: ['in', '$type', 'Point']
     });
-
     map.addLayer({
         id: 'measure-lines',
         type: 'line',
         source: 'geojson',
         layout: {
-          'line-cap': 'round',
-          'line-join': 'round'
+            'line-cap': 'round',
+            'line-join': 'round'
         },
         paint: {
-          'line-color': '#000',
-          'line-width': 2.5
+            'line-color': '#000',
+            'line-width': 2.5
         },
         filter: ['in', '$type', 'LineString']
     });
 }
 
 function destroyKyorisoku() {
-    if (distancePopup) {
-        distancePopup.remove();
-        distancePopup = null;
-    }
-
     if (kyorisokuMode) {
-        map.removeLayer('measure-lines');
         map.removeLayer('measure-points');
+        map.removeLayer('measure-lines');
         map.removeSource('geojson');
+
+        distanceContainer.innerHTML = '';
     }
 }
 
@@ -692,6 +718,10 @@ map.addControl(new mapboxgl.GeolocateControl());
 map.addControl(new mapboxgl.FullscreenControl());
 map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
 
+var distanceContainer = document.getElementById('distance');
+var geojson;
+var linestring;
+
 /*
 % webmerc -o 5/25/15
 5.615985,106.874999
@@ -787,19 +817,18 @@ map.on('load', function() {
 
         var features = map.queryRenderedFeatures(e.point, { layers: ['measure-points'] });
 
-        if (distanceFeatures.features.length > 1) distanceFeatures.features.pop();
+        // Remove the linestring from the group
+        // So we can redraw it based on the points collection
+        if (geojson.features.length > 1) geojson.features.pop();
+ 
+        // Clear the Distance container to populate it with a new value
+        distanceContainer.innerHTML = '';
 
         if (features.length) {
             var id = features[0].properties.id;
-            distanceFeatures.features = distanceFeatures.features.filter(function(point) {
+            geojson.features = geojson.features.filter(function(point) {
                 return point.properties.id !== id;
             });
-            if (features.length <= 1) {
-                if (distancePopup) {
-                    distancePopup.remove();
-                    distancePopup = null;
-                }
-            }
         } else {
             var point = {
                 "type": "Feature",
@@ -815,24 +844,24 @@ map.on('load', function() {
                 }
             };
 
-            distanceFeatures.features.push(point);
+            geojson.features.push(point);
         }
 
-        if (distanceFeatures.features.length > 1) {
-            linestring.geometry.coordinates = distanceFeatures.features.map(function(point) {
+        // if (distanceFeatures.features.length > 1) {
+        if (geojson.features.length > 1) {
+            linestring.geometry.coordinates = geojson.features.map(function(point) {
                 return point.geometry.coordinates;
             });
-
-            distanceFeatures.features.push(linestring);
-
-            var c = distanceFeatures.features[distanceFeatures.features.length-2].geometry.coordinates;
-            if (distancePopup === null) {
-                distancePopup = new mapboxgl.Popup({closeButton: false, closeOnClick: false}).addTo(map);
-            }
-            distancePopup.setLngLat(c).setHTML(Math.round(turf.lineDistance(linestring).toLocaleString() * 1000) / 1000 + 'km');
+            
+            geojson.features.push(linestring);
+            
+            // Populate the distanceContainer with total distance
+            var value = document.createElement('pre');
+            value.textContent = 'Total distance: ' + turf.lineDistance(linestring).toLocaleString() + 'km';
+            distanceContainer.appendChild(value);
         }
 
-        map.getSource('geojson').setData(distanceFeatures);
+        map.getSource('geojson').setData(geojson);
 
     });
 
@@ -882,8 +911,7 @@ document.getElementById('kyorisoku_label').onclick = function(e) {
     kyorisokuMode = e.target.checked;
 };
 
-var distancePopup = null;
-var distanceFeatures;
+var distanceContainer = document.getElementById('distance');
 
 var linestring = {
     "type": "Feature",
