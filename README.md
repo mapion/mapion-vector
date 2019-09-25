@@ -22,6 +22,8 @@
   - 地震データは [USGS](https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits) のAPIを利用しています
 - 気球を表示
   - Viva Balloon [© KevinAz61](https://sketchfab.com/KevinAz61) [Licensed under CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 
+- 航空写真
+  - 航空写真はMapboxの航空写真の画像の上にマピオンのベクターを重ね合わせて表示しています
 
 対応ブラウザ
 ==========
