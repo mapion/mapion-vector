@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -220,7 +220,7 @@
 <a href='./help.html'>HELP</a>
 </div>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 var accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
@@ -406,7 +406,7 @@ function addEarthquake(geojsonUrl, isDefault) {
                 9, 0
             ],
         }
-    }, '島BCD');
+    });
 
     map.addLayer({
         "id": pointLayerName,
@@ -457,106 +457,28 @@ function addEarthquake(geojsonUrl, isDefault) {
                 8, 1
             ]
         }
-    }, '島BCD');
+    });
 }
 
 function prepare() {
     
-    var fonts = map.getLayoutProperty('島_群島_諸島_半島_岬', 'text-font');
+    var fonts = map.getLayoutProperty('annotation その他', 'text-font');
     if (fonts.indexOf('Noto Sans Regular') >= 0 || fonts.indexOf('Noto Sans Bold') >= 0)
         return;
 
-    addFont('島_群島_諸島_半島_岬', 'Noto Sans Regular');
-    addFont('島_群島_諸島_半島_岬 国後島 択捉島 歯舞群島のみ', 'Noto Sans Regular');
-    addFont('島_群島_諸島_半島_岬 色丹島のみ', 'Noto Sans Regular');
-    addFont('middle_annotation 文字のみ', 'Noto Sans Regular');
-    addFont('middle_annotation 国道番号', 'Noto Sans Regular');
-    addFont('middle_annotation 文字とアイコン', 'Noto Sans Regular');
-    addFont('middle_annotation 政令指定都市区役所', 'Noto Sans Regular');
-    addFont('middle_annotation ランプ', 'Noto Sans Regular');
-    addFont('middle_annotation ジャンクション', 'Noto Sans Regular');
-    addFont('middle_annotation インターチェンジ', 'Noto Sans Regular');
-    addFont('base_annotation 文字のみ', 'Noto Sans Regular');
-    addFont('base_annotation 主要地方道番号', 'Noto Sans Regular');
-    addFont('base_annotation 国道番号', 'Noto Sans Regular');
-    addFont('base_annotation 文字とアイコン', 'Noto Sans Regular');
-    addFont('base_annotation 政令指定都市区役所', 'Noto Sans Regular');
-    addFont('主要交差点', 'Noto Sans Regular');
-    addFont('base_annotation ランプ', 'Noto Sans Regular');
-    addFont('base_annotation ジャンクション', 'Noto Sans Regular');
-    addFont('base_annotation インターチェンジ', 'Noto Sans Regular');
-    addFont('city_annotation 文字のみ', 'Noto Sans Regular');
-    addFont('city_annotation 国道番号', 'Noto Sans Regular');
-    addFont('city_annotation 文字とアイコン', 'Noto Sans Regular');
-    addFont('city_annotation 政令指定都市区役所', 'Noto Sans Regular');
-    addFont('city_annotation ランプ', 'Noto Sans Regular');
-    addFont('city_annotation ジャンクション', 'Noto Sans Regular');
-    addFont('中縮尺用インターチェンジ', 'Noto Sans Regular');
-    addFont('中縮尺用インターチェンジ simple', 'Noto Sans Regular');
-    addFont('city_annotation インターチェンジ', 'Noto Sans Regular');
-
-    addFont('主要都市名', 'Noto Sans Bold');
-    addFont('都道府県名', 'Noto Sans Bold');
-    addFont('top_annotation 海', 'Noto Sans Bold');
-    addFont('middle_annotation 海', 'Noto Sans Bold');
-    addFont('middle_annotation 河川・沢・谷', 'Noto Sans Bold');
-    addFont('middle_annotation 湖・池・沼', 'Noto Sans Bold');
-    addFont('middle_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
-    addFont('middle_annotation 大字・町', 'Noto Sans Bold');
-    addFont('middle_annotation 市区町村', 'Noto Sans Bold');
-    addFont('middle_annotation 都道府県名', 'Noto Sans Bold');
-    addFont('base_annotation 海', 'Noto Sans Bold');
-    addFont('base_annotation 河川・沢・谷', 'Noto Sans Bold');
-    addFont('base_annotation 湖・池・沼', 'Noto Sans Bold');
-    addFont('base_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
-    addFont('base_annotation 丁目・字', 'Noto Sans Bold');
-    addFont('base_annotation 条丁目', 'Noto Sans Bold');
-    addFont('base_annotation 大字・町', 'Noto Sans Bold');
-    addFont('base_annotation 市区町村', 'Noto Sans Bold');
-    addFont('base_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'Noto Sans Bold');
-    addFont('base_annotation テーマパーク', 'Noto Sans Bold');
-    addFont('base_annotation ケーブルカー駅', 'Noto Sans Bold');
-    addFont('base_annotation ロープウェイ駅', 'Noto Sans Bold');
-    addFont('base_annotation 新交通駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation 新交通駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation モノレール駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation モノレール駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation 地下鉄駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation 地下鉄駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation 路面鉄道駅', 'Noto Sans Bold');
-    addFont('base_annotation 私鉄駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation 私鉄駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation 第３セクター駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation 第３セクター駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation ＪＲ駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation ＪＲ駅（地上）', 'Noto Sans Bold');
-    addFont('base_annotation 新幹線駅（地下）', 'Noto Sans Bold');
-    addFont('base_annotation 新幹線駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation 海', 'Noto Sans Bold');
-    addFont('city_annotation 河川・沢・谷', 'Noto Sans Bold');
-    addFont('city_annotation 湖・池・沼', 'Noto Sans Bold');
-    addFont('city_annotation 湾・灘（海岸名）', 'Noto Sans Bold');
-    addFont('city_annotation 丁目・字', 'Noto Sans Bold');
-    addFont('city_annotation 大字・町', 'Noto Sans Bold');
-    addFont('city_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'Noto Sans Bold');
-    addFont('city_annotation テーマパーク', 'Noto Sans Bold');
-    addFont('city_annotation ケーブルカー駅', 'Noto Sans Bold');
-    addFont('city_annotation ロープウェイ駅', 'Noto Sans Bold');
-    addFont('city_annotation 新交通駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation 新交通駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation モノレール駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation モノレール駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation 地下鉄駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation 地下鉄駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation 路面鉄道駅', 'Noto Sans Bold');
-    addFont('city_annotation 私鉄駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation 私鉄駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation 第３セクター駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation 第３セクター駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation ＪＲ駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation ＪＲ駅（地上）', 'Noto Sans Bold');
-    addFont('city_annotation 新幹線駅（地下）', 'Noto Sans Bold');
-    addFont('city_annotation 新幹線駅（地上）', 'Noto Sans Bold');
+    addFont('annotation その他', 'Noto Sans Regular');
+    addFont('annotation 学校', 'Noto Sans Regular');
+    addFont('annotation POI', 'Noto Sans Regular');
+    addFont('annotation 駅', 'Noto Sans Bold');
+    addFont('annotation 主要交差点', 'Noto Sans Bold');
+    addFont('annotation 役所', 'Noto Sans Regular');
+    addFontByMatch('annotation 地名', 'Noto Sans Bold');
+    addFont('annotation 首都名・主要都市名', 'Noto Sans Bold');
+    addFont('annotation SA/PA/料金所', 'Noto Sans Regular');
+    addFont('annotation IC/JCT/ランプ', 'Noto Sans Regular');
+    addFont('annotation IC simple', 'Noto Sans Regular');
+    addFont('annotation 都道府県庁・政令指定都市区役所', 'Noto Sans Regular');
+    addFontByMatch('annotation 自然', 'Noto Sans Bold');
 }
 
 function addFont(id, font) {
@@ -565,118 +487,51 @@ function addFont(id, font) {
     map.setLayoutProperty(id, 'text-font', fonts);
 }
 
+function addFontByMatch(id, font) {
+    var arr = map.getLayoutProperty(id, 'text-font');
+    for (var i = 3; i < arr.length; i+=2) {
+        var fonts = arr[i][1];
+        fonts.push(font);
+    }
+    map.setLayoutProperty(id, 'text-font', arr);
+}
+
 function switchLanguage(select) {
     prepare();
+
     var langName = select.value.replace('lang', '');
-    var textFieldId = '{' + 'name_string1' + langName + '}';
+    var textFieldValue = 'name_string1' + langName;
 
-    map.setLayoutProperty('主要都市名', 'text-field', textFieldId);
-    map.setLayoutProperty('島_群島_諸島_半島_岬', 'text-field', textFieldId);
-    map.setLayoutProperty('島_群島_諸島_半島_岬 国後島 択捉島 歯舞群島のみ', 'text-field', textFieldId);
-    map.setLayoutProperty('島_群島_諸島_半島_岬 色丹島のみ', 'text-field', textFieldId);
-    map.setLayoutProperty('都道府県名', 'text-field', textFieldId);
-    map.setLayoutProperty('top_annotation 海', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 文字のみ', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 海', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 河川・沢・谷', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 湖・池・沼', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 湾・灘（海岸名）', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 国道番号', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 大字・町', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 市区町村', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 文字とアイコン', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 政令指定都市区役所', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation 都道府県名', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation ランプ', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation ジャンクション', 'text-field', textFieldId);
-    map.setLayoutProperty('middle_annotation インターチェンジ', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 文字のみ', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 海', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 河川・沢・谷', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 湖・池・沼', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 湾・灘（海岸名）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 主要地方道番号', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 国道番号', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 丁目・字', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 条丁目', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 大字・町', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 市区町村', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 文字とアイコン', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 政令指定都市区役所', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation テーマパーク', 'text-field', textFieldId);
-    map.setLayoutProperty('主要交差点', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ランプ', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ジャンクション', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation インターチェンジ', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ケーブルカー駅', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ロープウェイ駅', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 新交通駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 新交通駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation モノレール駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation モノレール駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 地下鉄駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 地下鉄駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 路面鉄道駅', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 私鉄駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 私鉄駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 第３セクター駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 第３セクター駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ＪＲ駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation ＪＲ駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 新幹線駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('base_annotation 新幹線駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 文字のみ', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 海', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 河川・沢・谷', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 湖・池・沼', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 湾・灘（海岸名）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 国道番号', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 丁目・字', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 大字・町', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 文字とアイコン', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 政令指定都市区役所', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 遊園地、総合リゾート、動物園、水族館、植物園、美術館、博物館・文学館・科学館・資料館', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation テーマパーク', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ランプ', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ジャンクション', 'text-field', textFieldId);
-    map.setLayoutProperty('中縮尺用インターチェンジ', 'text-field', textFieldId);
-    map.setLayoutProperty('中縮尺用インターチェンジ simple', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation インターチェンジ', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ケーブルカー駅', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ロープウェイ駅', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 新交通駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 新交通駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation モノレール駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation モノレール駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 地下鉄駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 地下鉄駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 路面鉄道駅', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 私鉄駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 私鉄駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 第３セクター駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 第３セクター駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ＪＲ駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation ＪＲ駅（地上）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 新幹線駅（地下）', 'text-field', textFieldId);
-    map.setLayoutProperty('city_annotation 新幹線駅（地上）', 'text-field', textFieldId);
+    setTextByMatch('annotation その他', textFieldValue);
+    setTextByMatch('annotation 学校', textFieldValue);
+    setTextByMatch('annotation POI', textFieldValue);
+    setText('annotation 駅', textFieldValue);
+    setText('annotation 主要交差点', textFieldValue);
+    setTextByMatch('annotation 役所', textFieldValue);
+    setText('annotation 地名', textFieldValue);
+    setText('annotation 首都名・主要都市名', textFieldValue);
+    setTextByMatch('annotation SA/PA/料金所', textFieldValue);
+    setText('annotation IC/JCT/ランプ', textFieldValue);
+    setText('annotation IC simple', textFieldValue);
+    setTextByMatch('annotation 都道府県庁・政令指定都市区役所', textFieldValue);
+    setTextByMatch('annotation 自然', textFieldValue);
 
-    setIconImage('middle_annotation 国道番号', langName);
-    setIconImage('middle_annotation ランプ', langName);
-    setIconImage('middle_annotation ジャンクション', langName);
-    setIconImage('middle_annotation インターチェンジ', langName);
-    setIconImage('base_annotation 主要地方道番号', langName);
-    setIconImage('base_annotation 国道番号', langName);
-    setIconImage('主要交差点', langName);
-    setIconImage('base_annotation ランプ', langName);
-    setIconImage('base_annotation ジャンクション', langName);
-    setIconImage('base_annotation インターチェンジ', langName);
-    setIconImage('city_annotation 国道番号', langName);
-    setIconImage('city_annotation ランプ', langName);
-    setIconImage('city_annotation ジャンクション', langName);
-    setIconImage('中縮尺用インターチェンジ', langName);
-    setIconImage('中縮尺用インターチェンジ simple', langName);
-    setIconImage('city_annotation インターチェンジ', langName);
+    setIconImage('annotation 主要交差点', langName);
+    setIconImageByMatch('annotation IC/JCT/ランプ', langName);
+}
+
+function setText(id, value) {
+    var ref = '{' + value + '}';
+    map.setLayoutProperty(id, 'text-field', ref);
+}
+
+function setTextByMatch(id, value) {
+    var arr = map.getLayoutProperty(id, 'text-field');
+    for (var i = 3; i < arr.length; i+=2) {
+        if (!arr[i][1]) continue;
+        arr[i][1][1] = value;
+    }
+    map.setLayoutProperty(id, 'text-field', arr);
 }
 
 function setIconImage(layerName, langName) {
@@ -687,6 +542,14 @@ function setIconImage(layerName, langName) {
     var reIconImage = iconImage.replace(lenName, 'len' + langName);
 
     map.setLayoutProperty(layerName, 'icon-image', reIconImage);
+}
+
+function setIconImageByMatch(layerName, langName) {
+    var arr = map.getLayoutProperty(layerName, 'icon-image');
+    for (var i = 3; i < arr.length; i+=2) {
+        arr[i][2][1][1] += langName
+    }
+    map.setLayoutProperty(layerName, 'icon-image', arr);
 }
 
 var params = {};
@@ -903,7 +766,7 @@ map.on('styledata', function (e) {
             }
             map.addSource("base", {
                 type: "vector",
-                url: "https://vt01.mapion.co.jp/gl-server/style/source-ipc-lab.json?access_token=" + accessToken
+                url: "https://vt01.mapion.co.jp/gl-server/style/source-ipc-lab2.json?access_token=" + accessToken
             });
             map.addLayer({
                 "id": "city_road 庭園路",
@@ -912,25 +775,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        0
                     ]
-                    ],
-                    0
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#ffffff",
-                "fill-opacity": 0.6
+                    "fill-color": "#ffffff",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -940,25 +803,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        9
                     ]
-                    ],
-                    9
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#ffffff",
-                "fill-opacity": 0.6
+                    "fill-color": "#ffffff",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -968,25 +831,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        8
                     ]
-                    ],
-                    8
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#ffffff",
-                "fill-opacity": 0.6
+                    "fill-color": "#ffffff",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -996,25 +859,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        7
                     ]
-                    ],
-                    7
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#FCF39B",
-                "fill-opacity": 0.6
+                    "fill-color": "#FCF39B",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1024,25 +887,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        6
                     ]
-                    ],
-                    6
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#FCF39B",
-                "fill-opacity": 0.6
+                    "fill-color": "#FCF39B",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1052,25 +915,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        5
                     ]
-                    ],
-                    5
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                 "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#EFC784",
-                "fill-opacity": 0.6
+                    "fill-color": "#EFC784",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1080,25 +943,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        4
                     ]
-                    ],
-                    4
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#7E92CE",
-                "fill-opacity": 0.6
+                    "fill-color": "#7E92CE",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1108,25 +971,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        3
                     ]
-                    ],
-                    3
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#7E92CE",
-                "fill-opacity": 0.6
+                    "fill-color": "#7E92CE",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1136,25 +999,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        2
                     ]
-                    ],
-                    2
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#7E92CE",
-                "fill-opacity": 0.6
+                    "fill-color": "#7E92CE",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1178,11 +1041,11 @@ map.on('styledata', function (e) {
                 ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#7E92CE",
-                "fill-opacity": 0.6
+                    "fill-color": "#7E92CE",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1192,25 +1055,25 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road",
                 "filter": [
-                "all",
-                [
-                    "==",
+                    "all",
                     [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
+                        "==",
+                        [
+                            "number",
+                            [
+                                "get",
+                                "roadclass_c"
+                            ]
+                        ],
+                        10
                     ]
-                    ],
-                    10
-                ]
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "fill-color": "#7E92CE",
-                "fill-opacity": 0.6
+                    "fill-color": "#7E92CE",
+                    "fill-opacity": 0.6
                 }
             }, '3d-model');
             map.addLayer({
@@ -1220,58 +1083,55 @@ map.on('styledata', function (e) {
                 "source": "base",
                 "source-layer": "city_road_case",
                 "filter": [
-                "all"
+                    "all"
                 ],
                 "layout": {
-                "visibility": "visible"
+                    "visibility": "visible"
                 },
                 "paint": {
-                "line-color": "#999999",
-                "line-width": 0.8
+                    "line-color": "#999999",
+                    "line-width": 0.8
                 }
             }, '3d-model');
             map.addLayer({
-                "id": "line_label",
+                "id": "road_link 道路ラベル",
                 "metadata": "#16/35.6447/139.7434",
                 "type": "symbol",
                 "source": "base",
-                "source-layer": "line_label",
+                "source-layer": "road_link",
                 "filter": [
-                "all"
+                    "all"
                 ],
                 "layout": {
-                "visibility": "visible",
-                // "text-font": [
-                //   "MXnuc3kp"
-                // ],
-                "text-field": "{display_kanji}",
-                "text-size": 11,
-                "symbol-placement": "line",
-                "symbol-spacing": [
-                    "interpolate",
-                    [
-                    "exponential",
-                    1
+                    "visibility": "visible",
+                    "text-field": "{display_kanji}",
+                    "text-size": 11,
+                    "symbol-placement": "line",
+                    "symbol-spacing": [
+                        "interpolate",
+                        [
+                        "exponential",
+                        1
+                        ],
+                        [
+                        "zoom"
+                        ],
+                        16,
+                        250,
+                        17,
+                        500,
+                        18,
+                        500,
+                        19,
+                        800
                     ],
-                    [
-                    "zoom"
-                    ],
-                    16,
-                    250,
-                    17,
-                    500,
-                    18,
-                    500,
-                    19,
-                    800
-                ],
-                "text-allow-overlap": false
+                    "text-allow-overlap": false
                 },
                 "paint": {
-                "text-color": "#0078B4",
-                "text-halo-color": "#ffffff",
-                "text-halo-width": 1,
-                "text-halo-blur": 0.5
+                    "text-color": "#0078B4",
+                    "text-halo-color": "#ffffff",
+                    "text-halo-width": 1,
+                    "text-halo-blur": 0.5
                 }
             }, '3d-model');
         }
