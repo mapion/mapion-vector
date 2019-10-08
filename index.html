@@ -175,6 +175,7 @@
             <select id='layer' name='layer' onchange='onlayer(this)'>
                 <option value='lab'>ラボ地図</option>
                 <option value='with-en'>ラボ地図（with英語）</option>
+                <option value='localfont'>ラボ地図（localfont）</option>
                 <option value='mono'>モノトーン地図</option>
                 <option value='osm'>OSM地図</option>
                 <option value='satellite'>航空写真</option>
@@ -240,6 +241,8 @@ function getAbsolutePath(name) {
         return 'https://vt01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
     case 'with-en':
         return 'https://vt01.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
+    case 'localfont':
+        return 'https://vt01.mapion.co.jp/gl-server/style/v2-noto.json?access_token=' + accessToken;
     case 'mono':
         return 'https://vt01.mapion.co.jp/gl-server/style/mono.json?access_token=' + accessToken;
     case 'osm':
@@ -325,7 +328,7 @@ function onlayer(select) {
     }
 
     resetCheckbox();
-    map.setStyle(getAbsolutePath(select.value), {diff: false});
+    map.setStyle(getAbsolutePath(select.value), {diff: false, localIdeographFontFamily: select.value === 'localfont'});
 }
 
 function onEarthquake(select) {
