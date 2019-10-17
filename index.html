@@ -742,7 +742,7 @@ map.on('load', function() {
     map.on('click', 'road_link 国道番号', function (e) {
         poiOnClick(e, e.features[0].properties.road_no);
     });
-    map.on('click', 'road_link road_link 道路ラベル', function (e) {
+    map.on('click', 'road_link 道路ラベル', function (e) {
         poiOnClick(e, e.features[0].properties.display_kanji);
     });
 
