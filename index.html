@@ -736,20 +736,100 @@ map.on('load', function() {
 
     });
 
-    map.on('click', 'middle_annotation 文字とアイコン', function (e) {
+    map.on('click', 'road_link 県道番号', function (e) {
+        poiOnClick(e, e.features[0].properties.road_no);
+    });
+    map.on('click', 'road_link 国道番号', function (e) {
+        poiOnClick(e, e.features[0].properties.road_no);
+    });
+    map.on('click', 'road_link road_link 道路ラベル', function (e) {
+        poiOnClick(e, e.features[0].properties.display_kanji);
+    });
+
+    map.on('click', 'railway_link 鉄道路線ラベル', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+
+    map.on('click', 'POI', function (e) {
+        var zoom = map.getZoom();
+        if (zoom > 17) {
+            poiOnClick(e, e.features[0].properties.poi_name);
+        } else {
+            poiOnClick(e, e.features[0].properties.genre_name);
+        }
+    });
+    map.on('click', 'annotation その他', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'base_annotation 文字とアイコン', function (e) {
+    map.on('click', 'annotation 学校', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'city_annotation 文字とアイコン', function (e) {
+    map.on('click', 'annotation POI', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'ロゴ', function (e) {
-        poiOnClick(e, e.features[0].properties.poi_name);
+    map.on('click', 'annotation 駅', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'ロゴ（名称）', function (e) {
-        poiOnClick(e, e.features[0].properties.poi_name);
+    map.on('click', 'annotation 主要交差点', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 役所', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 地名', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 首都名・主要都市名', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation SA/PA/料金所', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation IC/JCT/ランプ', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation IC simple', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 都道府県庁・政令指定都市区役所', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 国道番号', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 自然', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+
+    map.on('click', 'mapion_customize_points 山小屋・登山ポイント', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 姫路城', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 旧市区町村名称', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 街区公園', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points JR代替バス（BRT）', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points バス停', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points AMUSE_SPOT', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 観光地', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 北方領土都市名', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+    map.on('click', 'mapion_customize_points 島BCD', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
     });
 
     document.getElementById('init-inner').addEventListener('click', function(e) {
