@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -175,8 +175,6 @@
             <select id='layer' name='layer' onchange='onlayer(this)'>
                 <option value='lab'>ラボ地図</option>
                 <option value='with-en'>ラボ地図（with英語）</option>
-                <option value='localfont'>ラボ地図（localfont）</option>
-                <option value='mono'>モノトーン地図</option>
                 <option value='osm'>OSM地図</option>
                 <option value='satellite'>航空写真</option>
             </select>
@@ -221,7 +219,7 @@
 <a href='./help.html'>HELP</a>
 </div>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
 var accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
@@ -238,13 +236,9 @@ function parsePramameter(results) {
 function getAbsolutePath(name) {
     switch (name) {
     case 'lab':
-        return 'https://vt01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/localfont.json?access_token=' + accessToken;
     case 'with-en':
-        return 'https://vt01.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
-    case 'localfont':
-        return 'https://vt01.mapion.co.jp/gl-server/style/v2-noto.json?access_token=' + accessToken;
-    case 'mono':
-        return 'https://vt01.mapion.co.jp/gl-server/style/mono.json?access_token=' + accessToken;
+        return 'https://vt-stg.mapion.co.jp/gl-server/style/glmaps.json?access_token=' + accessToken;
     case 'osm':
         return 'https://vt01.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
     case 'satellite':
@@ -328,7 +322,7 @@ function onlayer(select) {
     }
 
     resetCheckbox();
-    map.setStyle(getAbsolutePath(select.value), {diff: false, localIdeographFontFamily: select.value === 'localfont'});
+    map.setStyle(getAbsolutePath(select.value), {diff: false});
 }
 
 function onEarthquake(select) {
@@ -463,27 +457,6 @@ function addEarthquake(geojsonUrl, isDefault) {
     });
 }
 
-function prepare() {
-    
-    var fonts = map.getLayoutProperty('annotation その他', 'text-font');
-    if (fonts.indexOf('Noto Sans Regular') >= 0 || fonts.indexOf('Noto Sans Bold') >= 0)
-        return;
-
-    addFont('annotation その他', 'Noto Sans Regular');
-    addFont('annotation 学校', 'Noto Sans Regular');
-    addFont('annotation POI', 'Noto Sans Regular');
-    addFont('annotation 駅', 'Noto Sans Bold');
-    addFont('annotation 主要交差点', 'Noto Sans Bold');
-    addFont('annotation 役所', 'Noto Sans Regular');
-    addFontByMatch('annotation 地名', 'Noto Sans Bold');
-    addFont('annotation 首都名・主要都市名', 'Noto Sans Bold');
-    addFont('annotation SA/PA/料金所', 'Noto Sans Regular');
-    addFont('annotation IC/JCT/ランプ', 'Noto Sans Regular');
-    addFont('annotation IC simple', 'Noto Sans Regular');
-    addFont('annotation 都道府県庁・政令指定都市区役所', 'Noto Sans Regular');
-    addFontByMatch('annotation 自然', 'Noto Sans Bold');
-}
-
 function addFont(id, font) {
     var fonts = map.getLayoutProperty(id, 'text-font');
     fonts.push(font);
@@ -500,27 +473,49 @@ function addFontByMatch(id, font) {
 }
 
 function switchLanguage(select) {
-    prepare();
-
     var langName = select.value.replace('lang', '');
-    var textFieldValue = 'name_string1' + langName;
+    var v = 'name_string1' + langName;
 
-    setTextByMatch('annotation その他', textFieldValue);
-    setTextByMatch('annotation 学校', textFieldValue);
-    setTextByMatch('annotation POI', textFieldValue);
-    setText('annotation 駅', textFieldValue);
-    setText('annotation 主要交差点', textFieldValue);
-    setTextByMatch('annotation 役所', textFieldValue);
-    setText('annotation 地名', textFieldValue);
-    setText('annotation 首都名・主要都市名', textFieldValue);
-    setTextByMatch('annotation SA/PA/料金所', textFieldValue);
-    setText('annotation IC/JCT/ランプ', textFieldValue);
-    setText('annotation IC simple', textFieldValue);
-    setTextByMatch('annotation 都道府県庁・政令指定都市区役所', textFieldValue);
-    setTextByMatch('annotation 自然', textFieldValue);
+    setText('annotation 丁目名・字名', v);
+    setText('annotation 条丁目', v);
+    setText('annotation 大字名・町名', v);
+    setText('annotation 号線名', v);
+    setText('annotation 通称名', v);
+    setTextByMatch('annotation minor', v);
+    setText('annotation ランプ', v);
+    setTextByMatch('annotation major 指示点', v);
+    setTextByMatch('annotation major', v);
+    setTextByMatch('annotation 学校', v);
+    setText('annotation 主要交差点', v);
+    setText('annotation 河川・沢・谷', v);
+    setText('annotation 湖・池・沼', v);
+    setText('annotation スマートIC', v);
+    setText('annotation JCT', v);
+    setText('annotation IC 無料', v);
+    setText('annotation IC', v);
+    setText('annotation IC simple', v);
+    setText('annotation 駅', v);
+    setTextByMatch('annotation 市区町村役場出張所', v);
+    setTextByMatch('annotation 町村役場', v);
+    setTextByMatch('annotation 市役所', v);
+    setTextByMatch('annotation 政令指定都市区役所・東京２３区役所', v);
+    setText('annotation 港', v);
+    setTextByMatch('annotation 都道府県庁', v);
+    setTextByMatch('annotation 空港', v);
+    setTextByMatch('annotation 山岳/山岳（総称）・山脈名', v);
+    setText('annotation 島・群島・諸島・半島・岬', v);
+    setText('annotation 湾・灘（海岸名）', v);
+    setText('annotation 海', v);
+    setText('annotation 市（指定を含む）・区町村名', v);
+    setText('annotation 首都名・主要都市名', v);
+    setText('annotation 富士山', v);
+    setText('annotation 都道府県', v);
 
+    setIconImageByMatch('annotation ランプ', langName);
+    setIconImageByMatch('annotation スマートIC', langName);
+    setIconImageByMatch('annotation JCT', langName);
+    setIconImageByMatch('annotation IC', langName);
     setIconImage('annotation 主要交差点', langName);
-    setIconImageByMatch('annotation IC/JCT/ランプ', langName);
 }
 
 function setText(id, value) {
@@ -549,9 +544,8 @@ function setIconImage(layerName, langName) {
 
 function setIconImageByMatch(layerName, langName) {
     var arr = map.getLayoutProperty(layerName, 'icon-image');
-    for (var i = 3; i < arr.length; i+=2) {
-        arr[i][2][1][1] += langName
-    }
+    arr[2][1][1] += langName;
+    arr[2][1][1] = 'len' + langName;
     map.setLayoutProperty(layerName, 'icon-image', arr);
 }
 
@@ -580,7 +574,7 @@ map = new mapboxgl.Map({
     maxZoom: 19,
     style: getAbsolutePath(style),
     hash: true,
-    localIdeographFontFamily: false,
+    localIdeographFontFamily: "'MS Gothic', 'Hiragino Sans', sans-serif",
     logoPosition: 'bottom-right',
 });
 
@@ -750,21 +744,25 @@ map.on('load', function() {
         poiOnClick(e, e.features[0].properties.name);
     });
 
-    map.on('click', 'POI', function (e) {
-        var zoom = map.getZoom();
-        if (zoom > 17) {
-            poiOnClick(e, e.features[0].properties.poi_name);
-        } else {
-            poiOnClick(e, e.features[0].properties.genre_name);
-        }
+    map.on('click', 'poi_all ロゴ', function (e) {
+        poiOnClick(e, e.features[0].properties.genre_name);
     });
-    map.on('click', 'annotation その他', function (e) {
+    map.on('click', 'annotation major 指示点', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation major', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation minor', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
     map.on('click', 'annotation 学校', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation POI', function (e) {
+    map.on('click', '国道番号 base', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', '国道番号 middle', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
     map.on('click', 'annotation 駅', function (e) {
@@ -773,31 +771,58 @@ map.on('load', function() {
     map.on('click', 'annotation 主要交差点', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation 役所', function (e) {
+    map.on('click', 'annotation 市区町村役場出張所', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation 地名', function (e) {
+    map.on('click', 'annotation 町村役場', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 市役所', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 政令指定都市区役所・東京２３区役所', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 港', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 都道府県庁', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 空港', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 山岳/山岳（総称）・山脈名', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 島・群島・諸島・半島・岬', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 湾・灘（海岸名）', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 海', function (e) {
+        poiOnClick(e, e.features[0].properties.name_string1);
+    });
+    map.on('click', 'annotation 市（指定を含む）・区町村名', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
     map.on('click', 'annotation 首都名・主要都市名', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation SA/PA/料金所', function (e) {
+    map.on('click', 'スマートIC', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation IC/JCT/ランプ', function (e) {
+    map.on('click', 'JCT', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation IC simple', function (e) {
+    map.on('click', 'IC', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation 都道府県庁・政令指定都市区役所', function (e) {
+    map.on('click', 'annotation 富士山', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
-    map.on('click', 'annotation 国道番号', function (e) {
-        poiOnClick(e, e.features[0].properties.name_string1);
-    });
-    map.on('click', 'annotation 自然', function (e) {
+    map.on('click', 'annotation 都道府県', function (e) {
         poiOnClick(e, e.features[0].properties.name_string1);
     });
 
@@ -808,12 +833,6 @@ map.on('load', function() {
         poiOnClick(e, e.features[0].properties.name);
     });
 
-    map.on('click', 'mapion_customize_points 山小屋・登山ポイント', function (e) {
-        poiOnClick(e, e.features[0].properties.name);
-    });
-    map.on('click', 'mapion_customize_points 姫路城', function (e) {
-        poiOnClick(e, e.features[0].properties.name);
-    });
     map.on('click', 'mapion_customize_points 旧市区町村名称', function (e) {
         poiOnClick(e, e.features[0].properties.name);
     });
@@ -826,9 +845,6 @@ map.on('load', function() {
     map.on('click', 'mapion_customize_points バス停', function (e) {
         poiOnClick(e, e.features[0].properties.name);
     });
-    map.on('click', 'mapion_customize_points AMUSE_SPOT', function (e) {
-        poiOnClick(e, e.features[0].properties.name);
-    });
     map.on('click', 'mapion_customize_points 観光地', function (e) {
         poiOnClick(e, e.features[0].properties.name);
     });
@@ -836,6 +852,18 @@ map.on('load', function() {
         poiOnClick(e, e.features[0].properties.name);
     });
     map.on('click', 'mapion_customize_points 島BCD', function (e) {
+        poiOnClick(e, e.features[0].properties.name);
+    });
+
+    map.on('click', 'poi_parking 駐車場', function (e) {
+        poiOnClick(e, e.features[0].properties.poi_name);
+    });
+
+    map.on('click', 'poi_building_name 建物名称', function (e) {
+        poiOnClick(e, e.features[0].properties.building_name);
+    });
+
+    map.on('click', 'poi_station_gate 駅出入口', function (e) {
         poiOnClick(e, e.features[0].properties.name);
     });
 
