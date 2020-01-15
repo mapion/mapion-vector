@@ -236,15 +236,15 @@ function parsePramameter(results) {
 function getAbsolutePath(name) {
     switch (name) {
     case 'lab':
-        return 'https://vt01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
+        return 'https://vt-cm01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
     case 'with-en':
-        return 'https://vt01.mapion.co.jp/gl-server/style/multi-lang.json?access_token=' + accessToken;
+        return 'https://vt-cm01.mapion.co.jp/gl-server/style/multi-lang.json?access_token=' + accessToken;
     case 'osm':
-        return 'https://vt01.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
+        return 'https://vt-cm01.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
     case 'satellite':
         return 'mapbox://styles/mapbox/satellite-v9';
     default:
-        return 'https://vt01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=' + accessToken;
+        return 'https://vt-cm01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=' + accessToken;
     }
 }
 
@@ -884,7 +884,7 @@ map.on('styledata', function (e) {
             }
             map.addSource("base", {
                 type: "vector",
-                url: "https://vt01.mapion.co.jp/gl-server/style/source-ipc-lab2.json?access_token=" + accessToken
+                url: "https://vt-cm01.mapion.co.jp/gl-server/style/source-ipc-lab2.json?access_token=" + accessToken
             });
             map.addLayer({
                 "id": "city_road 庭園路",
