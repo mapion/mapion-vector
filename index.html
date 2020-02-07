@@ -312,17 +312,24 @@ function resetCheckbox() {
     kyorisokuMode = false;
 }
 
-function onlayer(select) {
+function visibilityLang(value) {
     var langField = document.getElementById('lang-field');
-    if (select.value === 'lab') {
+    if (value === 'lab') {
         document.getElementById('change-lang').value = 'lang';
         langField.style.display = 'block';
     } else {
         langField.style.display = 'none';
     }
+}
 
+function changeSelect(value) {
+    visibilityLang(value);
     resetCheckbox();
-    map.setStyle(getAbsolutePath(select.value), {diff: false});
+    map.setStyle(getAbsolutePath(value), {diff: false});
+}
+
+function onlayer(select) {
+    changeSelect(select.value);
 }
 
 function onEarthquake(select) {
@@ -553,7 +560,8 @@ var params = {};
 parsePramameter(params);
 
 var style = params.style ? params.style : 'lab'; // /mapion-vector/?style=base
-// document.getElementById(style).checked = true;
+document.getElementById('layer').value = style;
+visibilityLang(style);
 
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
