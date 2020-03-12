@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' />
     <style>
         body { margin: 0; padding: 0; }
         html, body { height: 100%; }
@@ -174,9 +174,10 @@
             <label>地図を選択</label>
             <select id='layer' name='layer' onchange='onlayer(this)'>
                 <option value='lab'>ラボ地図</option>
-                <option value='with-en'>ラボ地図（with英語）</option>
+                <option value='withen'>ラボ地図（with英語）</option>
                 <option value='osm'>OSM地図</option>
                 <option value='satellite'>航空写真</option>
+                <option value='oazafocus'>ラボ地図（with大字）</option>
             </select>
         </fieldset>
         <fieldset id='lang-field'>
@@ -219,32 +220,26 @@
 <a href='./help.html'>HELP</a>
 </div>
 
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
 <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 <script>
+var styles = {};
+var curStyle = 'lab';
 var accessToken = 'mt-pk.eyJ1IjoibWFwaW9uIiwiYSI6InJ5ZXFiOWJyZ3J2MjV3ZDcyNXY3Z3dmYzYifQ.XoOA7fe-5nUi8ALSyCl277';
 mapboxgl.accessToken = 'pk.eyJ1IjoiaG9uam8iLCJhIjoiY2lzNm9scHhjMDBldzJ0cGt2eWh1cGdqaCJ9.FgVU9e59GA__w2CHA9GU-w';
+</script>
+<script src='./lab.js'></script>
+<script src='./withen.js'></script>
+<script src='./osm.js'></script>
+<script src='./satellite.js'></script>
+<script src='./oazafocus.js'></script>
+<script>
 
 function parsePramameter(results) {
     var pair=location.search.substring(1).split('&');
     for (var i=0; pair[i]; i++) {
         var kv = pair[i].split('=');
         results[kv[0]]=kv[1];
-    }
-}
-
-function getAbsolutePath(name) {
-    switch (name) {
-    case 'lab':
-        return 'https://vt-cm01.mapion.co.jp/gl-server/style/lab.json?access_token=' + accessToken;
-    case 'with-en':
-        return 'https://vt-cm01.mapion.co.jp/gl-server/style/multi-lang.json?access_token=' + accessToken;
-    case 'osm':
-        return 'https://vt-cm01.mapion.co.jp/gl-server/style/osm-direct.json?access_token=' + accessToken;
-    case 'satellite':
-        return 'mapbox://styles/mapbox/satellite-v9';
-    default:
-        return 'https://vt-cm01.mapion.co.jp/gl-server/style/' + name + '.json?access_token=' + accessToken;
     }
 }
 
@@ -323,9 +318,14 @@ function visibilityLang(value) {
 }
 
 function changeSelect(value) {
+    if (!value) return;
+    document.getElementById('layer').value = value;
     visibilityLang(value);
     resetCheckbox();
-    map.setStyle(getAbsolutePath(value), {diff: false});
+    map.setStyle(styles[value].getStyle(), { diff: false });
+    curStyle = value;
+    var func = styles[value].onChangeSelect;
+    if (func) func();
 }
 
 function onlayer(select) {
@@ -559,10 +559,6 @@ function setIconImageByMatch(layerName, langName) {
 var params = {};
 parsePramameter(params);
 
-var style = params.style ? params.style : 'lab'; // /mapion-vector/?style=base
-document.getElementById('layer').value = style;
-visibilityLang(style);
-
 var PRODUCT = document.domain === 'mapion.github.io' ? true : false;
 
 var map; // for external use
@@ -580,11 +576,12 @@ map = new mapboxgl.Map({
     zoom: DEFAULT_ZOOM_LEVEL,
     minZoom: 5,
     maxZoom: 19,
-    style: getAbsolutePath(style),
+    style: styles[curStyle].getStyle(),
     hash: true,
     localIdeographFontFamily: "'MS Gothic', 'Hiragino Sans', sans-serif",
     logoPosition: 'bottom-right',
 });
+changeSelect(params.style);
 
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(new mapboxgl.GeolocateControl());
@@ -595,15 +592,11 @@ var distanceContainer = document.getElementById('distance');
 var geojson;
 var linestring;
 
-/*
-% webmerc -o 5/25/15
-5.615985,106.874999
-% webmerc -o 5/30/10
-52.48278,163.124999
-*/
-
-// map.setMaxBounds(new mapboxgl.LngLatBounds([106.874999, 5.615985], [163.124999, 52.48278]));
-// map.showTileBoundaries = PRODUCT?false:true;
+var hoveredId = null;
+var azaPopup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
 
 // parameters to ensure the model is georeferenced correctly on the map
 var modelOrigin = [139.749965, 35.640910];
@@ -684,7 +677,6 @@ map.on('style.load', function() {
 });
 
 map.on('load', function() {
-
     map.on('click', function(e) {
         if (!kyorisokuMode) return;
 
@@ -879,390 +871,12 @@ map.on('load', function() {
         e.target.blur();
         map.flyTo({center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM_LEVEL, bearing: 0, pitch: 0});
     });
+
 });
 
-var checkedStyleStatus = false;
 map.on('styledata', function (e) {
-    checkedStyleStatus = false;
-
-    onStyle(function () {
-        if (map.getStyle().name === 'Satellite') {
-            if (map.getSource("base")) {
-                return;
-            }
-            map.addSource("base", {
-                type: "vector",
-                url: "https://vt-cm01.mapion.co.jp/gl-server/style/source-ipc-lab2.json?access_token=" + accessToken
-            });
-            map.addLayer({
-                "id": "city_road 庭園路",
-                "metadata": "#16/35.684429/139.711411",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        0
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#ffffff",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road その他道",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        9
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#ffffff",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road その他幹線道路",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        8
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#ffffff",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 一般都道府県道",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        7
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#FCF39B",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 主要地方道",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        6
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#FCF39B",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 国道",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        5
-                    ]
-                ],
-                "layout": {
-                 "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#EFC784",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 都市高速（無料）",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        4
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#7E92CE",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 都市高速（有料）",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        3
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#7E92CE",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 都市間高速道（無料）",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        2
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#7E92CE",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 都市間高速道（有料）",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                "all",
-                [
-                    "==",
-                    [
-                    "number",
-                    [
-                        "get",
-                        "roadclass_c"
-                    ]
-                    ],
-                    1
-                ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#7E92CE",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 有料道路",
-                "metadata": "",
-                "type": "fill",
-                "source": "base",
-                "source-layer": "city_road",
-                "filter": [
-                    "all",
-                    [
-                        "==",
-                        [
-                            "number",
-                            [
-                                "get",
-                                "roadclass_c"
-                            ]
-                        ],
-                        10
-                    ]
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "fill-color": "#7E92CE",
-                    "fill-opacity": 0.6
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "city_road 縁取り",
-                "metadata": "#16/35.643/139.7498",
-                "type": "line",
-                "source": "base",
-                "source-layer": "city_road_case",
-                "filter": [
-                    "all"
-                ],
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "line-color": "#999999",
-                    "line-width": 0.8
-                }
-            }, '3d-model');
-            map.addLayer({
-                "id": "road_link 道路ラベル",
-                "metadata": "#16/35.6447/139.7434",
-                "type": "symbol",
-                "source": "base",
-                "source-layer": "road_link",
-                "filter": [
-                    "all"
-                ],
-                "layout": {
-                    "visibility": "visible",
-                    "text-field": "{display_kanji}",
-                    "text-size": 11,
-                    "symbol-placement": "line",
-                    "symbol-spacing": [
-                        "interpolate",
-                        [
-                        "exponential",
-                        1
-                        ],
-                        [
-                        "zoom"
-                        ],
-                        16,
-                        250,
-                        17,
-                        500,
-                        18,
-                        500,
-                        19,
-                        800
-                    ],
-                    "text-allow-overlap": false
-                },
-                "paint": {
-                    "text-color": "#0078B4",
-                    "text-halo-color": "#ffffff",
-                    "text-halo-width": 1,
-                    "text-halo-blur": 0.5
-                }
-            }, '3d-model');
-        }
-    });
-
+    var func = styles[curStyle].onStyledata;
+    if (func) func();
 });
 
 map.on('mousemove', function (e) {
@@ -1272,19 +886,9 @@ map.on('mousemove', function (e) {
     } else {
         map.getCanvas().style.cursor = 'default';
     }
-});
 
-function onStyle(cb) {
-    if (checkedStyleStatus) {
-        return;
-    }
-    if (map.isStyleLoaded()) {
-        checkedStyleStatus = true;
-        cb();   
-    } else {
-        setTimeout(function() {onStyle(cb);}, 200);
-    }
-}
+
+});
 
 function poiOnClick(e, name) {
     if (!kyorisokuMode && name) {
