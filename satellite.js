@@ -387,7 +387,8 @@ styles.satellite = {
     }
     if (map.isStyleLoaded()) {
       styles.satellite._checkedStyleStatus = true;
-      cb();   
+      cb();
+      styles.satellite._checkedStyleStatus = false;
     } else {
       setTimeout(function() {styles.satellite.onStyle(cb);}, 200);
     }
